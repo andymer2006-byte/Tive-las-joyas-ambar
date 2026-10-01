@@ -1,0 +1,678 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>TIVE · Las joyas Ámbar</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#e6e6e6;--dim:#8a8a8a;--line:#555;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:'VT323','Courier New',monospace;font-size:22px;line-height:1.25}
+#w{max-width:820px;margin:0 auto;padding:8px}
+#cw{position:relative;border:2px solid var(--fg);background:#000}
+canvas{display:block;width:100%;aspect-ratio:192/108;image-rendering:pixelated}
+#cw:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);box-shadow:inset 0 0 90px 20px #000}
+#box{border:2px solid var(--fg);border-top:0;padding:12px 14px;min-height:190px}
+#who{color:var(--dim);letter-spacing:2px;margin-bottom:4px}
+#txt{min-height:5.2em;white-space:pre-wrap}
+#ch{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+button{font:inherit;color:var(--fg);background:#000;border:1px solid var(--line);padding:6px 10px;text-align:left;cursor:pointer}
+button:hover,button:focus-visible{background:var(--fg);color:#000;outline:none}
+#hud{color:var(--dim);font-size:18px;margin-top:6px;text-align:right}
+</style></head><body><div id="w"><div id="cw"><canvas id="c"></canvas></div><div id="box"><div id="who"></div><div id="txt"></div><div id="ch"></div></div><div id="hud"></div></div>
+<script>
+const cv=document.getElementById('c'),vg=cv.getContext('2d'),W=192,H=108;cv.width=W;cv.height=H;
+const bc=document.createElement('canvas');bc.width=W;bc.height=H;const bx=bc.getContext('2d');let g=bx;
+const K='#000',D='#141414',E='#2b2b2b',M='#595959',L='#8e8e8e',P='#c6c6c6',X='#f2f2f2';
+const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
+const dz=(x,y,w,h,a,b)=>{for(let j=0;j<h;j++)for(let i=0;i<w;i++)R(x+i,y+j,1,1,(i+j)%2?a:b)};
+const SC={
+o(){R(0,0,W,H,D);dz(0,82,W,26,E,D);for(let i=0;i<W;i+=16)R(i,82,1,26,K);R(0,80,W,2,M);
+R(114,12,56,50,P);R(116,14,52,46,K);
+for(let i=0;i<8;i++){const h=10+((i*7)%5)*6;R(117+i*6,58-h,6,h,E);for(let k=0;k<h-4;k+=4)if((i+k)%3)R(119+i*6,56-k,1,1,X)}
+for(let y=14;y<60;y+=5)R(116,y,52,2,M);R(139,12,2,50,P);R(114,36,56,2,P);
+for(let i=0;i<5;i++)dz(98+i*3,84+i*4,50,2,L,E);
+dz(58,50,24,20,M,D);R(60,68,60,4,M);R(60,68,60,1,P);R(62,72,5,22,E);R(113,72,5,22,E);
+R(66,64,8,4,K);R(69,54,1,10,L);R(62,48,13,6,P);R(63,54,11,1,X);
+R(86,66,12,2,X);R(100,64,10,4,K);R(101,63,8,1,M);
+R(30,14,12,12,P);R(31,15,10,10,K);R(35,16,1,5,X);R(35,20,4,1,X);
+R(12,34,16,20,M);R(14,36,12,16,E);dz(14,36,12,16,L,E);R(18,40,4,4,D);R(16,46,8,6,D)},
+b(){R(0,0,W,H,D);for(let r=0;r<2;r++){R(10,34+r*18,172,2,M);for(let i=0;i<16;i++){const h=8+(i*5)%5;R(14+i*10,34+r*18-h,4,h,i%3?L:P);R(15+i*10,34+r*18-h-3,2,3,L);R(14+i*10,34+r*18-h+1,1,h-2,X)}}
+dz(0,60,W,20,E,D);R(0,78,W,3,P);R(0,81,W,27,E);for(let i=0;i<W;i+=12)R(i,84,1,24,K);dz(0,81,W,2,M,K);
+for(let i=0;i<4;i++){R(14+i*28,92,10,2,L);R(18+i*28,94,2,10,M)}
+R(96,50,4,26,K);dz(0,0,W,6,K,D)},
+d(){R(0,0,W,H,K);for(let b=0;b<6;b++)dz(0,b*10,W,10,b%2?E:D,b<2?K:D);
+for(let y=-9;y<=9;y++)for(let x=-9;x<=9;x++)if(x*x+y*y<=81)R(150+x,22+y,1,1,(x*x+y*y>60)?L:P);R(146,18,3,3,L);R(152,25,2,2,L);
+for(let i=0;i<9;i++)R(30,i<4?20+i*2:28+(i-4)*3,0,0,K);R(20,12,4,56,E);R(10,14,40,3,E);R(44,14,2,24,E);R(8,66,60,4,E);
+R(0,66,W,8,M);for(let i=0;i<8;i++)dz(100+i*3,67+i,60-i*6,1,X,L);for(let y=68;y<74;y+=2)for(let x=0;x<W;x+=8)R(x+(y%4),y,5,1,L);
+R(0,74,W,34,E);for(let x=0;x<W;x+=18)R(x,74,1,34,K);for(let y=82;y<108;y+=9)R(0,y,W,1,D);
+R(112,50,3,26,K);R(108,48,11,3,K);dz(100,50,27,22,M,K);
+R(130,56,20,16,M);R(130,56,20,2,P);R(140,56,1,16,K);R(160,60,14,12,E);R(160,60,14,2,L)},
+w(){R(0,0,W,H,E);for(let x=0;x<W;x+=8){R(x,0,1,80,D);if(x%24==0)R(x+3,0,1,80,M)}
+for(let c=0;c<3;c++){const x=6+c*14,y=48-c*6;R(x,y,24,26,M);R(x,y,24,2,P);R(x,y+12,24,2,E);R(x+11,y,2,26,E)}
+R(150,56,28,22,M);R(150,56,28,2,P);R(150,66,28,2,E);R(160,38,24,18,L);R(160,38,24,2,X);R(160,46,24,2,M);
+dz(0,80,W,28,D,K);R(0,80,W,2,M);for(let x=0;x<W;x+=24)R(x,82,1,26,K);
+R(95,0,2,18,L);R(90,17,12,5,P);R(91,22,10,1,X);for(let i=1;i<=22;i++)dz(96-i*2,22+i*3,i*4,1,L,E);
+R(84,70,24,14,E)},
+e(){R(0,0,W,H,K);dz(0,0,W,H,D,K)}
+};
+const T={},CH={t:{},f:{},j:{},m:{},s:{}},SP={};let WX=0;
+const pl=(c,p,a,b)=>{c.beginPath();c.moveTo(p[0],p[1]);for(let i=2;i<p.length;i+=2)c.lineTo(p[i],p[i+1]);c.closePath();const xs=p.filter((_,i)=>i%2==0),gr=c.createLinearGradient(Math.min(...xs),0,Math.max(...xs),0);gr.addColorStop(0,a);gr.addColorStop(1,b||a);c.fillStyle=gr;c.fill()};
+const HH=c=>[(a,b,d)=>pl(c,a,b,d),(k,...q)=>{c.fillStyle=k;c.fillRect(...q)}];
+const hand=(r,x,y,k)=>{r('#777',x+1,y-1,4,1);r(k,x+1,y,4,3);r(k,x+1,y+3,1,3);r(k,x+2,y+3,1,4);r(k,x+3,y+3,1,3);r(k,x+4,y+3,1,2);r(k,x+5,y+1,1,3);r('#555',x+1,y+3,4,1)};
+function head(p,r,d,a,b,e){head0(p,r,d,a,b,e);p([29,22,35,22,36,25,28,25],'#999','#444');r('#666',28,22,8,1);r('#555',31+d*2,17,2,1);r('#777',24,14,1,3);r('#777',39,14,1,3);r('#333',29,12,6,1)}
+function head0(p,r,d,a,b,e){p([23,11,26,11,26,17,24,16],a,b);p([38,11,41,11,40,16,38,17],a,b);
+p([26,6,38,6,40,12,39,18,35,23,29,23,25,18,24,12],a,b);p([31+d*2,12,33+d*2,12,34+d*2,18,31+d*2,18],'#aaa','#666');
+if(!e){const x=d>0?[30,35]:[27,32];r('#fff',x[0],14,3,1);r('#fff',x[1],14,3,1);r('#111',x[0]+(d>0?1:0),14,2,1);r('#111',x[1]+(d>0?1:0),14,2,1);r('#222',x[0],12,3,1);r('#222',x[1],12,3,1)}}
+const DR={
+t:c=>{const[p,r]=HH(c);
+p([12,27,19,25,20,40,13,41],'#707070','#111');p([13,40,20,40,20,52,15,53],'#606060','#050505');hand(r,13,52,'#cfcfcf');
+p([17,28,23,24,41,24,47,28,45,44,51,63,13,63,19,44],'#686868','#020202');
+p([18,30,22,27,21,44,16,62,13,62,19,44],'#a0a0a0','#555');p([30,42,34,42,35,63,29,63],'#000');
+p([19,43,45,43,45,46,19,46],'#999','#222');r('#eee',30,43,4,3);p([42,28,49,29,50,46,43,47],'#2a2a2a','#000');
+p([27,22,38,22,33,42],'#f4f4f4','#888');p([32,26,34,26,34,37,33,40,32,37],'#111');
+p([23,22,29,25,33,42,26,38],'#8a8a8a','#222');p([42,22,37,25,33,42,39,38],'#333','#000');
+p([21,19,28,24,24,29,18,25],'#aaa','#333');p([43,19,37,24,40,29,47,25],'#444','#000');
+p([28,19,36,19,37,26,27,26],'#bbb','#666');head(p,r,1,'#ececec','#707070',1);p([31,19,39,17,37,22,32,24],'#999','#444');
+p([14,10,50,9,55,12,48,15,18,15,10,13],'#555','#000');p([22,-1,42,-1,43,10,21,10],'#3a3a3a','#000');p([21,6,43,6,43,9,21,9],'#cfcfcf','#555');p([29,-1,35,-1,32,3],'#000');
+c.fillStyle='rgba(0,0,0,.75)';c.fillRect(25,11,15,4);r('#fff',31,14,2,1);r('#fff',36,14,2,1);r('#fff',32,19,9,1)},
+f:c=>{const[p,r]=HH(c);
+p([8,27,16,25,17,44,8,46],'#8a8a8a','#222');p([7,44,16,44,16,52,8,53],'#7a7a7a','#222');hand(r,6,51,'#d6d6d6');
+p([21,27,24,24,40,24,43,27,41,50,23,50],'#f2f2f2','#8a8a8a');
+p([15,28,22,24,25,26,25,52,13,52],'#8a8a8a','#222');p([40,26,43,24,50,28,52,52,39,52],'#555','#000');
+p([22,23,27,26,24,38],'#bbb','#444');p([42,23,37,26,40,38],'#777','#111');p([24,38,25,38,25,52,24,52],'#ddd');
+p([46,28,54,29,55,46,47,47],'#555','#000');hand(r,47,46,'#aaa');
+c.strokeStyle='#fff';c.beginPath();c.moveTo(26,26);c.lineTo(32,36);c.lineTo(38,26);c.stroke();r('#fff',31,36,3,3);
+p([27,19,38,19,41,27,25,27],'#c4c4c4','#808080');head(p,r,-1,'#e6e6e6','#848484');
+r('#111',36,21,3,1);r('#111',36,22,1,1);r('#111',36,23,3,1);r('#111',38,24,1,1);r('#111',36,25,3,1);
+p([23,2,41,2,42,8,38,7,26,7,23,9],'#555','#000');r('#aaa',27,3,6,1);
+r('#555',27,15,1,5);r('#222',28,19,6,1);r('#222',33,18,1,1);r('#fff',24,15,1,2)},
+j:c=>{const[p,r]=HH(c);
+p([20,10,44,10,47,36,41,40,39,22,26,22,24,40,17,36],'#555','#050505');
+p([17,28,23,24,41,24,47,28,46,44,52,64,12,64,18,44],'#aaa','#1c1c1c');p([18,30,22,27,21,44,15,62,12,62,18,44],'#e0e0e0','#999');p([30,40,34,40,35,64,30,64],'#222','#000');
+p([10,28,18,26,19,44,12,46],'#999','#222');p([12,44,18,44,22,52,16,54],'#555','#222');p([46,29,52,30,53,46,47,47],'#555','#000');
+p([21,22,43,22,44,30,34,35,24,30],'#eee','#666');r('#222',24,26,19,1);r('#222',25,29,17,1);
+p([28,19,36,19,37,26,27,26],'#c4c4c4','#808080');head(p,r,-1,'#e4e4e4','#808080');
+for(let i=0;i<14;i++)r('#666',27+(i*7)%10,18+(i*3)%5,1,1);
+p([21,9,27,9,26,32,22,36],'#777','#111');p([39,9,44,9,45,36,40,31],'#333','#000');
+p([22,1,42,1,44,8,22,8],'#999','#222');p([12,7,28,6,28,10,13,10],'#777','#111');r('#eee',31,0,2,1);
+c.fillStyle='rgba(0,0,0,.6)';c.fillRect(25,10,14,3);r('#555',28,19,5,1)},
+m:c=>{const[p,r]=HH(c);
+p([8,27,16,25,17,44,9,46],'#9a9a9a','#222');p([8,44,16,44,17,50,9,51],'#999','#222');hand(r,7,50,'#d0d0d0');
+c.strokeStyle='#ddd';c.lineWidth=2;c.beginPath();c.moveTo(9,52);c.lineTo(9,73);c.stroke();c.beginPath();c.arc(12,52,3,Math.PI,0);c.stroke();c.lineWidth=1;
+p([16,28,23,24,41,24,47,28,50,40,48,56,14,56,12,40],'#8a8a8a','#050505');p([22,27,42,27,43,54,21,54],'#e8e8e8','#888');
+p([20,25,28,25,31,42,25,52],'#aaa','#222');p([44,25,36,25,33,42,39,52],'#555','#000');
+for(let i=0;i<4;i++)r('#111',32,32+i*5,1,1);
+c.strokeStyle='#fff';c.beginPath();c.moveTo(36,37);c.quadraticCurveTo(30,45,26,40);c.stroke();r('#fff',25,39,2,3);
+p([29,24,36,24,36,28,29,28],'#000');p([46,28,53,29,54,46,47,46],'#555','#000');
+p([28,19,37,19,38,26,27,26],'#bbb','#777');head(p,r,-1,'#eee','#8a8a8a',1);p([23,12,26,12,26,20,23,18],'#ccc','#999');
+c.strokeStyle='#111';c.beginPath();c.arc(28,14,3,0,7);c.stroke();c.beginPath();c.arc(35,14,3,0,7);c.stroke();r('#111',28,14,1,1);r('#111',35,14,1,1);r('#111',31,14,1,1);
+p([26,18,32,17,39,18,36,21,32,19,28,21],'#f0f0f0','#aaa');
+p([24,1,40,1,43,10,21,10],'#3a3a3a','#000');p([18,9,46,9,48,12,16,12],'#555','#000');r('#aaa',22,7,20,2);p([27,2,31,2,30,6,26,6],'#bbb','#777')},
+s:c=>{const[p,r]=HH(c);
+p([9,27,17,25,16,38,8,39],'#fff','#aaa');p([8,38,15,38,22,45,18,48],'#eee','#999');hand(r,17,44,'#d8d8d8');
+p([16,28,22,24,42,24,48,28,46,44,50,64,14,64,18,44],'#f4f4f4','#8a8a8a');p([18,30,22,26,21,44,16,62,14,62,19,44],'#fff','#ddd');
+p([29,25,35,25,33,43,31,43],'#111');p([31,27,33,27,34,40,32,43,30,40],'#eee');
+p([22,25,29,25,31,44,24,40],'#fff','#aaa');p([42,25,35,25,33,44,40,40],'#ccc','#777');
+r('#666',27,34,1,1);r('#666',27,39,1,1);r('#666',37,34,1,1);r('#666',37,39,1,1);r('#fff',41,33,3,2);r('#222',41,35,3,1);
+p([46,28,53,29,54,46,47,46],'#bbb','#555');hand(r,47,45,'#aaa');
+p([28,19,36,19,37,26,27,26],'#ccc','#777');head(p,r,-1,'#f0f0f0','#888',1);
+r('#000',26,13,5,3);r('#000',33,13,5,3);r('#000',31,13,2,1);r('#fff',27,13,1,1);r('#fff',34,13,1,1);
+r('#222',27,19,6,1);r('#fff',29,19,1,1);r('#eee',19,19,8,1);
+p([22,1,40,0,43,7,40,8,26,7,22,9],'#555','#000');p([22,-3,38,-4,41,2,24,5],'#888','#222');r('#ccc',26,-2,8,1)}};
+const LG={t:['#3a3a3a','#050505','#1c1c1c','#000','#555','#000','#333',1],f:['#888','#222','#666','#111','#eee','#555','#ccc',-1],j:['#444','#000','#222','#000','#666','#000','#444',-1],m:['#888','#222','#666','#111','#fff','#777','#ddd',-1],s:['#fff','#999','#ddd','#777','#222','#000','#111',-1]};
+const CL={t:66,f:56,j:67,m:60,s:66};
+function lg(id,po){const q=LG[id],d=q[7],v=[[0,0,0,0],[4,-4,0,3],[0,0,2,0],[-4,4,3,0]][po];
+return c=>{const[p]=HH(c),dl=v[0]*d,dr=v[1]*d,t=d>0?2:0,b=d<0?2:0;
+p([24,46,32,46,31+dl,70-v[2],22+dl,70-v[2]],q[0],q[1]);p([32,46,40,46,41+dr,70-v[3],33+dr,70-v[3]],q[2],q[3]);
+p([19+dl-b,69-v[2],31+dl,69-v[2],31+dl+t,73-v[2],19+dl-b,73-v[2]],q[4],q[5]);
+p([33+dr-b,69-v[3],46+dr,69-v[3],46+dr+t,73-v[3],33+dr-b,73-v[3]],q[6],q[5])}}
+function mk(fn,cl){const w=64,h=78,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.beginPath();x.rect(0,0,w,cl);x.clip();x.translate(0,3);fn(x);x.setTransform(1,0,0,1,0,0);
+const a=x.getImageData(0,0,w,h).data;
+for(let i=0;i<a.length;i+=4){if(a[i+3]<128)a[i+3]=0;else{a[i+3]=255;a[i]=a[i+1]=a[i+2]=Math.round((a[i]*.3+a[i+1]*.59+a[i+2]*.11)/255*7)/7*255}}
+const al=(X,Y)=>X<0||Y<0||X>=w||Y>=h?0:a[(Y*w+X)*4+3],o=x.createImageData(w,h),b=o.data;
+for(let Y=0;Y<h;Y++)for(let X=0;X<w;X++){const i=(Y*w+X)*4;let v=-1;
+if(a[i+3]){v=a[i];if(!al(X-1,Y))v=Math.max(v,170)}else if(al(X-1,Y)||al(X+1,Y)||al(X,Y-1)||al(X,Y+1))v=6;
+if(v>=0){b[i]=b[i+1]=b[i+2]=v;b[i+3]=255}}
+x.clearRect(0,0,w,h);x.putImageData(o,0,0);return c}
+function man(cx,by,o,fr){const id=Object.keys(CH).find(k=>CH[k]===o),mv=cur.mv||cur.run||(cur.walk&&WX<0),run=cur.run,po=mv?(fr>>(run?1:3))&3:0,k=id+po;
+SP[id]=SP[id]||mk(DR[id],CL[id]);SP[k]=SP[k]||mk(lg(id,po),99);
+cx+=cur.walk?WX:0;by-=mv?(fr>>(run?1:2))&1:(fr>>5)&1;const x=Math.round(cx-32),y=by-76;
+g.drawImage(SP[k],x,y);g.drawImage(SP[id],x,y);
+if(id=='t'){g.fillStyle=(fr>>4)&1?X:M;g.fillRect(cx+9,by-54,1,1);T.cx=cx+10;T.cy=by-55}}
+const S={c:0,l:0,f:0};
+const NM={T:'TIVE',F:'FIVE',J:'JOHN QUINTANA',N:'',X:'FIN'};
+const N={
+s0:{s:'e',sp:'N',t:'TIVE\nEl caso de las joyas Ámbar\n\nCiudad de Hierro. Llueve desde el martes. Cada decisión cuenta: tus pistas y la lealtad de tu hermano decidirán cómo acaba la noche.',ch:[['Empezar la investigación','o1']]},
+o1:{s:'o',p:'t',sp:'N',t:'La Duquesa Valmont acaba de irse de mi oficina dejando su perfume, un cheque y un problema: las joyas Ámbar volaron del hotel Imperial. Solo hay dos nombres en la lista de sospechosos, y los dos me duele leerlos: mi hermano Five... y John Quintana.',ch:[['Encender un cigarrillo y repasar el expediente','o2',{c:1}],['Salir a la calle sin pensar demasiado','bar1']]},
+o2:{s:'o',p:'t',sp:'T',t:'El vigilante vio a un tipo con un cinco tatuado en el cuello. En la caja fuerte, un pelo largo y castaño... y una gorra olvidada. Cinco, pelo largo, gorra. No hace falta ser detective. Solo hace falta que no sea verdad.',ch:[['Ir a El Cuervo, donde bebe Five','bar1']]},
+bar1:{s:'b',p:'f',sp:'F',t:'Vaya, el sabueso. Con ese sombrero pareces un cuervo en un funeral. ¿Vienes a sermonearme, hermanito?',ch:[['Agarrarlo del cuello: "¿Dónde están las joyas?"','b2a',{l:-1}],['Invitarle a un whisky y hablar como hermanos','b2b',{l:1}],['Cachearlo con disimulo mientras brindan','b2c',{c:1,l:-1}]]},
+b2a:{s:'b',p:'f',sp:'F',t:'¡Suéltame! Yo no planeé nada. Fue Quintana, el de la gorra. Yo solo vigilé la puerta... ¡lo juro por mamá!',ch:[['"Mamá no te creería. Sigue hablando."','bar3',{c:1}]]},
+b2b:{s:'b',p:'f',sp:'F',t:'Eres el único que me trata como a una persona, Tive. Mira... Quintana dijo que las joyas eran suyas por herencia. Yo solo vigilé la puerta. No sabía que era un robo.',ch:[['Apretarle el hombro: "Te creo. Sigue."','bar3',{c:1,l:1}]]},
+b2c:{s:'b',p:'f',sp:'T',t:'Entre su mechero y un paquete arrugado encuentro una cerilla: "Almacén 9 · Muelle Norte". Five carraspea. Sabe que lo sé.',ch:[['Guardarla en el bolsillo sin decir nada','bar3',{c:1}]]},
+bar3:{s:'b',p:'f',sp:'F',t:'Quintana se ve esta noche en el muelle. Ten cuidado: John no discute con palabras.',ch:[['Ir solo al muelle','dock1'],['"Vienes conmigo. Quiero que lo mires a los ojos."','dock1',{l:1,f:1}]]},
+dock1:{s:'d',p:'j',ff:1,sp:'J',t:'Tive. Siempre con ese sombrero. ¿Sabes qué les pasa a los detectives que husmean de noche en el muelle? Los peces no hacen preguntas.',ch:[['Farolear: "Tengo testigos y pruebas, Quintana."',s=>s.c>=2?'dock2':'dock3'],['Enseñarle la cerilla del Almacén 9','dock2',{c:1},s=>s.c>=2],['Callar y dar una calada larga','dock4']]},
+dock2:{s:'d',p:'j',ff:1,sp:'J',t:'Veo que sabes más de lo que debías. Está bien: el trabajo se hizo. Pero fue idea de tu hermano. Pregúntale por qué no te lo contó. Almacén 9. Termínalo tú.',ch:[['"Eso lo veremos allí."','w1',{c:1}]]},
+dock3:{s:'d',p:'j',ff:1,sp:'J',t:'Testigos... ja. Ni tú te lo crees. Almacén 9, a medianoche. Ven si quieres respuestas.',ch:[['Aceptar la cita','w1']]},
+dock4:{s:'d',p:'j',ff:1,sp:'J',t:'Fumas como quien reza. Me gusta eso. Ven al Almacén 9 y hablaremos como hombres.',ch:[['Seguirle en silencio','w1',{l:0}]]},
+w1:{s:'w',p:'j',ff:1,sp:'J',t:'Mira el brillo, Tive. Cuatro millones en una maleta. Tu hermano la sujetaba con la misma mano con la que firma sus mentiras. ¿Y ahora? ¿Qué vas a hacer, detective?',ch:[['Acusar a John con lo que has descubierto',s=>s.c>=3?'end1':'end4'],['Acusar a Five delante de todos','end2'],['Proponer un trato: las joyas por tu silencio','end3'],['Desenfundar y apuntar a John',s=>s.f&&s.l>=1?'end5':'end6']]},
+end1:{s:'e',sp:'X',t:'FINAL 1 de 12 · CASO CERRADO\n\nQuintana cantó entre esposas. Five salió con una condicional. La Duquesa pagó. Mi hermano no me dio las gracias: me invitó a un whisky. Esa noche la lluvia sonó casi a música.',end:1},
+end2:{s:'e',sp:'X',t:'FINAL 2 de 12 · SANGRE DE MI SANGRE\n\nAcusé a Five. Quintana sonrió bajo la gorra y se perdió entre los contenedores. A mi hermano se lo llevó la policía con el cinco brillando bajo el foco. La ley quedó contenta. Yo no.',end:1},
+end3:{s:'e',sp:'X',t:'FINAL 3 de 12 · EL PRECIO\n\nLas joyas cambiaron de manos. Hay trajes nuevos en mi armario y un nudo en el estómago. Ya no sé si el del espejo soy yo o una sombra que me alquila el sombrero.',end:1},
+end4:{s:'e',sp:'X',t:'FINAL 4 de 12 · SIN PRUEBAS\n\nSin pruebas, mis palabras eran humo. Quintana rió, la maleta se evaporó y Five cargó con todo. Un detective sin pruebas es solo un hombre con sombrero.',end:1},
+end5:{s:'e',sp:'X',t:'FINAL 5 de 12 · LUZ APAGADA\n\nFive tiró de la cadena de la lámpara. Oscuridad, un disparo, un grito. Cuando volvió la luz, John estaba en el suelo y mi hermano temblaba con mi arma. Cargamos juntos con lo que quedaba. Las joyas volvieron. Five también.',end:1},
+end6:{s:'e',sp:'X',t:'FINAL 6 de 12 · ÚLTIMO CIGARRILLO\n\nFui lento. John no. El suelo frío, la lluvia en el techo, el último cigarrillo apagándose en mi mano. Lo último que oí fue a mi hermano diciendo mi nombre.',end:1}
+};
+let cur=N.s0,shown=0,typing=false,fr=0,iv;
+const $=id=>document.getElementById(id);
+function go(id,e){eff(e);if(S.h<=0&&id!='s0'&&!(N[id]&&N[id].end))id='end8';
+cur=N[id];if(cur.e){eff(cur.e);if(S.h<=0&&!cur.end)return go('end8')}if(cur.end)sfx(id=='end6'?'s':'g');g=bx;g.clearRect(0,0,W,H);SC[cur.s]();g=vg;
+$('who').textContent=NM[cur.sp];$('ch').innerHTML='';$('txt').textContent='';shown=0;typing=true;
+hud(id);clearInterval(iv);iv=setInterval(()=>{shown+=1;if(shown%3==0)sfx('t');$('txt').textContent=cur.t.slice(0,shown);if(shown>=cur.t.length)done()},22)}
+function done(){clearInterval(iv);typing=false;$('txt').textContent=cur.t;if(cur.cine){cine(cur.cine,cur.next);return}if(cur.trav)TO.push(setTimeout(()=>go(cur.trav),cur.dur||3400));if(cur.qte){startQ(cur.qte);return}const b=$('ch');b.innerHTML='';
+const list=cur.end?[['Volver a empezar con otras decisiones','s0']]:cur.ch||[];let n=0;
+list.forEach(c=>{if(c[3]&&!c[3](S))return;n++;const B=document.createElement('button');B.textContent=n+'. '+c[0];
+B.onclick=()=>{sfx('c');if(cur.end){rs()}act(c,B)};b.appendChild(B)})}
+$('box').addEventListener('click',e=>{if(typing&&e.target.tagName!='BUTTON')done()});
+addEventListener('keydown',e=>{if(typing&&(e.key==' '||e.key=='Enter'))return done();const b=$('ch').children[+e.key-1];if(b)b.click()});
+const rain=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,v:2+Math.random()*2}));
+const smoke=[];let flash=0;
+function frame(){fr++;T.cx=0;g=vg;SCR();
+const p=cur.p||'',talk=typing?(fr>>3)&1:0;let chars=p.split('').filter(Boolean);
+if(cur.ff&&S.f)chars.push('f');
+if(cur.s!='e'){
+chars.forEach(k=>{const oo=chars.filter(q=>q!='t'),nn=oo.length,ii=oo.indexOf(k),x=k=='t'?46:nn<2?150:nn==2?[112,150][ii]:nn==3?[88,122,156][ii]:[80,106,132,158][ii];man(x,98-(({T:'t',F:'f',J:'j',M:'m',S:'s',R:'r',V:'v',K:'k',C:'c'})[cur.sp]==k?talk:0),CH[k],fr)});
+if(cur.s=='b'||cur.s=='d'||cur.s=='w'||cur.s=='o'){if(!chars.includes('t'))man(46,98-(cur.sp=='T'?talk:0),CH.t,fr)}}
+if(cur.s=='b'){const on=(fr%90<80)||(fr%6<3);vg.globalAlpha=on?1:.25;vg.fillStyle=X;vg.font='bold 11px monospace';vg.fillText('EL CUERVO',66,18);vg.globalAlpha=on?.25:0;dz(60,6,72,16,X,X);vg.globalAlpha=1}
+if(cur.s=='w'){vg.globalAlpha=1;R(88,64,16,8,P);R(88,64,16,1,X);R(95,68,2,2,K);const s=(fr>>3)%4;R(90+s*3,60-s%2,1,1,X);R(100-s*2,61,1,1,X);if(s%2){R(94,58,1,3,X);R(93,59,3,1,X)}}
+if(cur.s!='e'&&cur.s!='d'||cur.s=='e'){}
+if(!(cur.s=='e')&&T.cx&&chars.concat(cur.s=='e'?[]:['t']).length){if(fr%9==0)smoke.push({x:T.cx,y:T.cy,a:.7,d:Math.random()-.4});}
+smoke.forEach(s=>{s.y-=.3;s.x+=s.d*.3+.1;s.a-=.007;vg.globalAlpha=Math.max(s.a,0);R(s.x,s.y,2,2,P)});vg.globalAlpha=1;
+while(smoke.length&&smoke[0].a<=0)smoke.shift();
+vg.globalAlpha=.55;rain.forEach(r=>{r.y+=r.v;r.x-=.6;if(r.y>H){r.y=-4;r.x=Math.random()*W+10}R(r.x,r.y,1,3,L)});vg.globalAlpha=1;
+for(let i=0;i<30;i++)R(Math.random()*W,Math.random()*H,1,1,Math.random()<.5?'rgba(255,255,255,.12)':'rgba(0,0,0,.25)');
+if(!flash&&Math.random()<.002){flash=8;setTimeout(()=>sfx('th'),500)}if(flash){vg.globalAlpha=flash/18;R(0,0,W,H,X);vg.globalAlpha=1;flash--}
+post();drawQ();requestAnimationFrame(frame)}
+SC.m=()=>{R(0,0,W,H,K);for(let b=0;b<7;b++)dz(0,b*8,W,8,b%2?E:D,b<2?K:D);
+for(let y=-12;y<=12;y++)for(let x=-12;x<=12;x++){const q=x*x+y*y;if(q<=144)R(150+x,24+y,1,1,q>100?L:P)}R(144,18,4,3,L);R(155,28,3,2,L);R(150,15,2,2,L);
+for(let i=0;i<24;i++){const h=24+(i*13)%22;R(i*8,86-h,8,h,E);for(let k=0;k<h-6;k+=5)if((i+k)%3)R(i*8+2+(k%2)*3,84-k,2,2,L)}
+for(let i=0;i<12;i++){const h=34+(i*29)%30,x=i*17-4;R(x,88-h,16,h,D);R(x,88-h,16,1,M);for(let k=4;k<h-6;k+=6)for(let q=0;q<3;q++)if((i*q+k)%4==0)R(x+3+q*5,88-k,3,3,X)}
+R(0,86,W,22,D);dz(0,92,W,16,E,D);for(let i=0;i<10;i++)R(10+i*20,100+(i%2)*3,12,1,L);
+R(12,40,2,48,L);R(8,38,10,3,P);dz(2,42,20,44,M,D)};
+let AC,NB,mgn,mus=1,beat=0,nt=0;
+function au(){if(AC){AC.resume&&AC.resume();return}AC=new(window.AudioContext||window.webkitAudioContext)();mgn=AC.createGain();mgn.gain.value=mus?.6:0;mgn.connect(AC.destination);
+NB=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+const rs=AC.createBufferSource();rs.buffer=NB;rs.loop=true;const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=2500;const rg=AC.createGain();rg.gain.value=.05;rs.connect(f);f.connect(rg);rg.connect(AC.destination);rs.start();
+nt=AC.currentTime+.1;setInterval(sched,100)}
+const mf=n=>440*Math.pow(2,(n-69)/12);
+function tn(f,t,d,ty,v,dest,lp){const o=AC.createOscillator(),gn=AC.createGain();o.type=ty;o.frequency.value=f;gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(v,t+.02);gn.gain.exponentialRampToValueAtTime(.001,t+d);let n=o;if(lp){const fl=AC.createBiquadFilter();fl.frequency.value=lp;o.connect(fl);n=fl}n.connect(gn);gn.connect(dest||AC.destination);o.start(t);o.stop(t+d+.05)}
+function nz(t,d,v,f,ty,dest){const s=AC.createBufferSource();s.buffer=NB;const fl=AC.createBiquadFilter();fl.type=ty||'highpass';fl.frequency.value=f;const gn=AC.createGain();gn.gain.setValueAtTime(v,t);gn.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(fl);fl.connect(gn);gn.connect(dest||AC.destination);s.start(t);s.stop(t+d+.05)}
+const BS=[[38,41,45,41],[43,46,50,46],[45,49,52,49],[38,45,41,37]],CD=[[50,53,57,60],[55,58,62,65],[52,55,61,64],[50,53,57,60]],
+ML=[[[0,74,1.5],[2,72,.5],[3,69,1]],[[0,70,2],[2.5,69,.5],[3,67,1]],[[0,64,1],[1,67,1],[2,69,1],[3,73,1]],[[0,74,3]]];
+function sched(){if(!AC)return;const sb=.8333;while(nt<AC.currentTime+.3){const bar=Math.floor(beat/4)%4,b=beat%4;
+tn(mf(BS[bar][b]),nt,.7,'triangle',.5,mgn,500);if(b%2)nz(nt,.12,.12,6000,'highpass',mgn);
+ML[bar].forEach(([bt,m,d])=>{if(Math.floor(bt)==b)tn(mf(m),nt+(bt%1)*sb,d*sb,'sawtooth',.09,mgn,1400)});
+if(b==0||(b==2&&bar%2))CD[bar].forEach(m=>tn(mf(m),nt+(b==2?.5*sb:0),1.1,'sine',.07,mgn));
+nt+=sb;beat++}}
+function sfx(k){if(!AC)return;const t=AC.currentTime;
+if(k=='t')tn(900+Math.random()*300,t,.03,'square',.03);
+if(k=='c'){tn(520,t,.08,'square',.08);tn(780,t+.06,.1,'square',.06)}
+if(k=='l'){nz(t,.05,.3,3000);nz(t+.18,.05,.25,3500);tn(180,t+.4,.5,'sawtooth',.03,0,400)}
+if(k=='th')nz(t,2.5,.6,200,'lowpass');
+if(k=='s'){nz(t,.25,.9,500,'lowpass');tn(70,t,.4,'sawtooth',.2,0,200)}
+if(k=='g')[50,53,56,62].forEach((m,i)=>tn(mf(m),t+i*.25,1.6,'triangle',.12))}
+function togM(){mus=!mus;if(mgn)mgn.gain.value=mus?.6:0}
+['pointerdown','keydown'].forEach(e=>addEventListener(e,au));
+addEventListener('keydown',e=>{if(e.key=='m'||e.key=='M')togM();if(e.key=='Escape'&&cur.intro)endIntro()});
+function act(c,B){const id=typeof c[1]=='function'?c[1](S):c[1];
+if(id=='@mus'){togM();B.textContent=B.textContent.split('.')[0]+'. Música: '+(mus?'sí':'no');return}
+if(id=='@intro'){rs();startIntro();return}
+if(id=='o1')rs();go(id,c[2])}
+let TO=[],wkI,stT=0;
+function setSc(s,p,cap,big){cur={s,p,sp:'N',t:'',intro:1,ch:cur.ch,big};g=bx;g.clearRect(0,0,W,H);SC[s]();g=vg;$('who').textContent='';$('txt').textContent=cap||'';stT=fr}
+function startIntro(){clearInterval(iv);typing=false;$('ch').innerHTML='';$('hud').textContent='';const k=document.createElement('button');k.textContent='1. Saltar intro (Esc)';k.onclick=endIntro;$('ch').appendChild(k);
+sfx('l');
+[[0,()=>{setSc('e','','Una historia de La Ciudad Sombría.','LA CIUDAD SOMBRÍA');sfx('th')}],
+[3500,()=>setSc('m','','Donde la lluvia no lava los pecados.')],
+[7000,()=>{setSc('d','t','Alguien cruza el muelle bajo la lluvia. Siempre es el mismo.');cur.walk=1;WX=-75;clearInterval(wkI);wkI=setInterval(()=>{if(WX<0)WX+=1},45)}],
+[11500,()=>{setSc('d','t','Tive. Detective privado. Sombrero negro, gabardina negra, cuentas pendientes.');sfx('l')}],
+[16000,()=>{setSc('o','tm','Su mentor, El Negociante Negociado, le enseñó la única regla: todo se negocia... menos la verdad.')}],
+[21000,()=>{setSc('w','t','Esta noche han desaparecido las joyas Ámbar. Los sospechosos llevan su sangre... o su amistad.');flash=10;sfx('s')}],
+[26000,endIntro]].forEach(([t,f])=>TO.push(setTimeout(f,t)))}
+function endIntro(){TO.forEach(clearTimeout);TO=[];clearInterval(wkI);WX=0;go('o1')}
+function post(){g=vg;
+if(cur.menu){vg.globalAlpha=.85+.15*Math.sin(fr/9);vg.lineJoin='round';vg.strokeStyle=K;vg.lineWidth=4;
+vg.font='bold 44px VT323,monospace';vg.strokeText('TIVE',88,50);vg.fillStyle=X;vg.fillText('TIVE',88,50);
+vg.font='bold 13px VT323,monospace';vg.strokeText('EL DETECTIVE',90,64);vg.fillStyle=P;vg.fillText('EL DETECTIVE',90,64);
+vg.font='bold 10px VT323,monospace';vg.fillStyle=L;vg.fillText('LA CIUDAD SOMBRÍA',90,78);vg.globalAlpha=1}
+if(cur.big){vg.textAlign='center';vg.font='bold 22px VT323,monospace';vg.fillStyle=X;vg.globalAlpha=Math.min(1,(fr-stT)/40);vg.fillText(cur.big,96,58);vg.globalAlpha=1;vg.textAlign='start'}
+if(cur.intro){R(0,0,W,9,K);R(0,H-9,W,9,K);const a=1-(fr-stT)/24;if(a>0){vg.globalAlpha=a;R(0,0,W,H,K);vg.globalAlpha=1}}}
+NM.M='EL NEGOCIANTE NEGOCIADO';
+N.s0={s:'m',p:'t',menu:1,sp:'N',t:'Un noir de decisiones. Cada palabra tiene un precio.\n(Toca la pantalla para activar el sonido)',ch:[['Nueva partida','@intro'],['Saltar la intro','o1'],['Música: sí','@mus'],['Cómo se juega','help']]};
+N.help={s:'m',p:'t',menu:1,sp:'N',t:'Lee, decide y vive con las consecuencias. Elige con clic o con las teclas 1-4. Espacio acelera el texto. M silencia la música. Tus pistas y la confianza de Five deciden el final: hay 6.',ch:[['Volver','s0']]};
+N.o1.t='La Ciudad Sombría. Llueve desde el martes. La Duquesa Valmont acaba de irse de mi oficina dejando su perfume, un cheque y un problema: las joyas Ámbar volaron del hotel Imperial. Dos nombres en la lista de sospechosos, y los dos me duelen: mi hermano Five... y John Quintana. Alguien llama a la puerta con la punta de un bastón.';
+N.o1.ch=[['Abrir: es mi viejo maestro','m1']];
+N.m1={s:'o',p:'tm',sp:'M',t:'Escucha, chaval. En La Ciudad Sombría todo el mundo negocia algo: los jueces su sueño, los curas su fe, los hermanos su sangre. Yo soy El Negociante Negociado y he negociado hasta mi última ilusión. Un consejo: no acuses sin una prueba que aguante la lluvia.',ch:[['"Gracias, maestro. Revisaré el expediente."','o2',{c:1}],['"¿Crees que mi hermano es culpable?"','m2'],['"Esta vez voy por mi cuenta."','bar1']]};
+N.m2={s:'o',p:'tm',sp:'M',t:'La sangre pesa más que cualquier prueba, Tive. Pero un detective que no sospecha de su hermano es solo un hermano con placa.',ch:[['Asentir y repasar el expediente','o2',{c:1,l:1}]]};
+S.h=3;S.i=[];let CN=0,shk=0;
+function rs(){S.c=0;S.l=0;S.f=0;S.h=3;S.i=[]}
+SC.c=()=>{R(0,0,W,H,K);for(let b=0;b<8;b++)dz(0,b*7,W,7,b%2?E:D,b<2?K:D);
+for(let i=0;i<6;i++){const x=i*32,h=40+(i*17)%28;R(x,86-h,30,h,D);R(x,86-h,30,2,M);for(let k=8;k<h-6;k+=9){R(x+4,86-k,6,5,(i+k)%3?E:X);R(x+16,86-k,6,5,(i*k)%4?E:P)}}
+R(0,86,W,22,E);dz(0,88,W,2,M,E);for(let i=0;i<4;i++)R(i*48+6,100,24,2,M);
+R(94,38,3,50,L);R(88,36,14,3,P);dz(80,40,32,46,M,E);R(150,62,32,3,P);R(152,65,28,21,K);R(158,70,10,16,M)};
+function SCR(){const o=cur.sc?((fr*cur.sc)%W)|0:0,sx=shk>0?((shk--,Math.random()*5-2)|0):0;vg.drawImage(bc,-o+sx,0);if(o)vg.drawImage(bc,W-o+sx,0)}
+function eff(e){CN=0;if(!e)return;for(const k in e){if(k=='i'){if(!S.i.includes(e.i))S.i.push(e.i)}else if(k=='x')S.i=S.i.filter(v=>v!=e.x);else if(k=='f')S.f=1;else S[k]+=e[k]}S.c=Math.max(0,S.c);S.l=Math.max(-3,Math.min(3,S.l))}
+function hud(id){$('hud').textContent=id=='s0'||id=='help'||cur.end||cur.cine?'':'♥'.repeat(Math.max(S.h,0))+'♡'.repeat(Math.max(0,3-S.h))+'  Pistas '+'■'.repeat(S.c)+'□'.repeat(Math.max(0,4-S.c))+'  Five '+(S.l>0?'▲':S.l<0?'▼':'■')+(S.i.length?'  Pruebas: '+S.i.join(', '):'')}
+const Q={on:0};
+function zone(){Q.w=18+(S.i.includes('Revólver de John')?10:0)-Q.k*2;Q.z=10+Math.random()*(150-Q.w-20)}
+function startQ(q){Q.on=1;Q.q=q;Q.n=q.n;Q.k=0;Q.hit=0;Q.x=0;Q.dir=1;Q.v=2.4;zone();$('who').textContent='¡ACCIÓN!';const k=document.createElement('button');k.textContent='¡AHORA! (Espacio o toca la pantalla)';k.onclick=hitQ;$('ch').innerHTML='';$('ch').appendChild(k)}
+function hitQ(){if(!Q.on)return;const ok=Q.x>=Q.z-2&&Q.x<=Q.z+Q.w+2;sfx(ok?'s':'t');
+if(ok){Q.hit++;shk=8}else{S.h--;hud('x');if(S.h<=0){Q.on=0;return go('end8')}}
+Q.k++;if(Q.k>=Q.n){Q.on=0;const q=Q.q,r=Q.hit>=Math.ceil(Q.n/2)?q.ok:q.ko;go(typeof r=='function'?r(S):r)}else{Q.v+=.5;zone()}}
+function drawQ(){if(!Q.on)return;Q.x+=Q.dir*Q.v;if(Q.x>150||Q.x<0){Q.dir*=-1;Q.x=Math.max(0,Math.min(150,Q.x))}
+R(20,H-26,156,8,K);R(20,H-26,156,1,L);R(20,H-19,156,1,L);R(20+Q.z,H-25,Q.w,6,X);R(20+Q.x,H-29,3,14,P);
+for(let i=0;i<Q.n;i++)R(20+i*6,H-36,4,4,i<Q.k?M:X)}
+addEventListener('keydown',e=>{if(e.key==' '&&Q.on){e.preventDefault();hitQ()}});cv.addEventListener('pointerdown',hitQ);
+function cine(st,next){clearInterval(iv);typing=false;TO.forEach(clearTimeout);TO=[];CN=next;const k=document.createElement('button');k.textContent='1. Saltar (Esc)';k.onclick=endIntro;$('ch').innerHTML='';$('ch').appendChild(k);
+let t=0;st.forEach(([d,s,p,cap,o])=>{o=o||{};TO.push(setTimeout(()=>{setSc(s,p,cap,o.big);if(o.run){cur.run=1;cur.mv=1}if(o.mv)cur.mv=1;if(o.sc)cur.sc=o.sc;if(o.fx)sfx(o.fx);if(o.fl)flash=10},t));t+=d});TO.push(setTimeout(()=>go(next),t))}
+function endIntro(){TO.forEach(clearTimeout);TO=[];clearInterval(wkI);WX=0;go(CN||'o1')}
+NM.S='SPOIL McCOIL';
+const cn=(c,n)=>({s:'e',p:'',sp:'N',t:'',cine:c,next:n});
+Object.assign(N,{
+tr1:{s:'c',p:'t',mv:1,sc:1.4,trav:'bar1',sp:'N',t:'Calle Hollow. Cada charco guarda un secreto y cada farola, un testigo. Rumbo a El Cuervo...'},
+tr2:{s:'c',p:'t',mv:1,sc:1.6,trav:'dock1',sp:'N',t:'Muelle Norte. Huele a sal, a aceite y a mentiras. Cada paso suena a promesa rota...'},
+cn1:cn([[3000,'c','','Un coche negro frena frente a El Cuervo.',{fx:'th'}],[3200,'c','s','Unos zapatos blancos pisan el charco. Sin una sola mancha.',{fl:1}],[3000,'b','fs','—Spoil McCoil —murmura Five. Y su sonrisa se apaga.']],'mc1'),
+mc1:{s:'b',p:'fs',sp:'S',t:'Spoil McCoil, aseguradora Valmont & Hijos. El mejor detective de la ciudad, por si no lo sabías, Tive. Me llevo a tu hermano a "charlar". A mi manera.',ch:[['Interponerte: "Pasarás por encima de mí."','qa'],['Ofrecerle la cerilla a cambio de que se marche','mc2',{},s=>s.i.includes('Cerilla')],['Picarle el ego: "Cuéntame tu brillante teoría."','mc3',{l:-1}]]},
+qa:{s:'b',p:'fs',sp:'N',t:'McCoil sonríe y lanza el primer golpe. Una silla vuela. Esquiva, aguanta y devuélvelo cuando la barra marque verde.',qte:{n:3,ok:'mc4',ko:'mc5'}},
+mc2:{s:'b',p:'fs',sp:'S',t:'Una cerilla. Qué sentimental. Me la quedo, pero me debes una, detective. Mañana vendré con pruebas de verdad.',e:{c:-1,x:'Cerilla'},ch:[['Dejarle marchar','tr2']]},
+mc3:{s:'b',p:'fs',sp:'S',t:'Teoría fácil: tu hermano y el de la gorra se pelearon por el botín. Tengo una foto de Quintana en el muelle a medianoche. ¿Ves? Yo hablo con pruebas.',e:{c:1,i:'Foto del muelle'},ch:[['Memorizar el rostro de la foto','tr2']]},
+mc4:{s:'b',p:'fs',sp:'S',t:'Fuera de sí, McCoil se limpia la sangre del labio. —Esto no se queda así. La próxima vez, sin guantes.',e:{l:1},ch:[['Sacudirte el polvo y salir','tr2']]},
+mc5:{s:'b',p:'fs',sp:'S',t:'Un puñetazo te dobla en dos. McCoil te quita la cerilla del bolsillo con dos dedos. —Aficionado.',e:{c:-1,x:'Cerilla'},ch:[['Levantarte con el orgullo hecho trizas','tr2']]},
+cn2:cn([[2800,'d','j','John lanza las llaves al mar y echa a correr.',{fx:'s'}],[2600,'c','tj','¡Detrás de él!',{run:1,sc:3,fx:'th'}]],'ch1'),
+ch1:{s:'c',p:'tj',run:1,sc:3,sp:'N',t:'John salta cajas y contenedores. El Almacén 9 está a cien metros. Salta cuando la barra marque el momento.',qte:{n:3,ok:'ch2',ko:'ch3'}},
+ch2:{s:'w',p:'j',sp:'N',t:'Placaje limpio en la puerta del almacén. John suelta su revólver: queda a tus pies.',e:{c:1,i:'Revólver de John'},ch:[['Recogerlo y entrar','w1']]},
+ch3:{s:'w',p:'j',sp:'N',t:'Tropiezas con un cabo y te abres la ceja. John gana el almacén, pero la puerta cede bajo tu hombro.',ch:[['Entrar sangrando','w1']]},
+duel:{s:'w',p:'j',ff:1,sp:'N',t:'Los dos desenfundan. Un segundo largo como una condena. ¡Dispara cuando la barra esté en verde!',qte:{n:2,ok:s=>s.f&&s.l>=1?'end5':'end7',ko:'end6'}},
+end7:{s:'e',sp:'X',end:1,t:'FINAL 7 de 12 · EL MEJOR DE LA CIUDAD\n\nGané el duelo. John cayó con la gorra rodando por el suelo y Spoil McCoil llegó tarde para llevarse el crédito, como siempre. Five bajó la mirada. Yo me quedé con la lluvia y el humo.'},
+end8:{s:'e',sp:'X',end:1,t:'FINAL 8 de 12 · DEMASIADOS GOLPES\n\nEl cuerpo avisa antes que el orgullo. Caigo de rodillas en el muelle con el sombrero rodando por el suelo. La ciudad sigue sin mí, y sigue lloviendo.'}});
+N.o2.e={i:'Pelo largo y gorra'};N.o2.ch[0][1]='tr1';N.m1.ch[2][1]='tr1';N.b2c.e={i:'Cerilla'};
+N.bar3.ch[0][1]=N.bar3.ch[1][1]='cn1';N.dock1.ch[1][3]=s=>s.i.includes('Cerilla');
+['dock2','dock3','dock4'].forEach(k=>N[k].ch[0][1]='cn2');N.w1.ch[3]=['Desenfundar: duelo a muerte','duel'];
+['end1','end2','end3','end4','end5','end6'].forEach(k=>N[k].t=N[k].t.replace('de 6','de 8'));
+N.help.t='Lee, decide y vive con las consecuencias. Elige con clic o con las teclas 1-4. En las escenas de acción pulsa Espacio (o toca) cuando el marcador esté en la zona clara: cada fallo te cuesta un corazón. Reúne pistas y pruebas, y gánate a Five: hay 8 finales. M silencia la música.';
+go('s0');frame();
+</script><script>
+(()=>{
+CH.r={};CH.v={};NM.R='ROSE';NM.V='CORONEL VANCE STERLING';
+DR.r=c=>{const[p,r]=HH(c);
+p([19,10,45,10,48,38,44,48,39,40,38,22,26,22,25,40,20,48,16,38],'#2a2a2a','#000');
+p([17,28,22,25,22,44,17,46],'#ddd','#999');hand(r,16,45,'#ddd');p([42,25,47,28,48,44,43,46],'#ddd','#999');hand(r,42,45,'#ddd');
+p([21,25,27,24,37,24,43,25,40,37,45,64,19,64,24,37],'#1a1a1a','#000');p([27,24,37,24,32,35],'#e8e8e8','#aaa');
+r('#fff',27,37,10,1);p([36,44,45,64,38,64],'#555','#000');
+p([28,19,36,19,37,26,27,26],'#ccc','#888');head(p,r,-1,'#e8e8e8','#888');r('#111',30,20,4,1);r('#fff',31,20,1,1);
+p([22,6,42,6,45,15,40,9,31,8,26,11,23,18],'#333','#000')};
+DR.v=c=>{const[p,r]=HH(c);
+p([10,28,18,26,19,46,11,48],'#333','#000');hand(r,10,47,'#cfcfcf');
+p([14,26,22,24,42,24,50,26,52,64,12,64],'#3a3a3a','#070707');
+p([14,23,24,21,27,27,14,29],'#ccc','#555');p([50,23,40,21,37,27,50,29],'#aaa','#444');
+p([27,24,37,24,32,40],'#ddd','#777');p([31,26,33,26,33,38,32,40,31,38],'#111');
+r('#fff',20,34,3,2);r('#ccc',24,34,3,2);r('#fff',20,37,3,2);r('#111',14,48,38,3);r('#ccc',31,48,3,3);
+p([46,28,53,29,54,48,47,48],'#333','#000');hand(r,47,48,'#aaa');
+p([28,19,37,19,38,26,27,26],'#bbb','#777');head(p,r,1,'#d8d8d8','#777');r('#222',35,12,1,8);r('#aaa',29,19,6,1);
+p([22,3,42,3,44,10,20,10],'#2a2a2a','#000');p([20,9,47,9,49,12,18,12],'#555','#000');r('#fff',30,5,4,3)};
+LG.r=['#ddd','#999','#bbb','#777','#111','#000','#222',-1];LG.v=['#333','#000','#222','#000','#111','#000','#111',1];CL.r=66;CL.v=66;
+SC.r=()=>{R(0,0,W,H,K);for(let b=0;b<7;b++)dz(0,b*8,W,8,b%2?D:E,b<3?K:D);
+for(let y=-9;y<=9;y++)for(let x=-9;x<=9;x++)if(x*x+y*y<=81)R(40+x,24+y,1,1,x*x+y*y>60?L:X);
+for(let i=0;i<10;i++){const h=12+(i*17)%22;R(i*20,76-h,12,h,E);R(i*20+3,76-h-3,4,3,E);R(i*20,76-h,12,1,M)}
+R(70,58,90,4,M);R(70,58,90,1,P);R(76,62,4,24,E);R(150,62,4,24,E);for(let x=84;x<150;x+=6)R(x,54,1,4,L);R(104,52,20,6,K);
+R(0,86,W,22,D);dz(0,88,W,20,E,D);for(let i=0;i<8;i++){R(i*26+2,80,1,10,L);R(i*26-2,82,9,1,L);R(i*26,85,6,1,L)}
+dz(14,98,34,6,K,E);dz(120,100,40,5,K,E)};
+const FB='[FLASHBACK · GUERRA DEL AÑO ROJO]\n';
+const rs0=rs;rs=function(){rs0();S.ro=0;S.vn=0};S.ro=0;S.vn=0;
+Object.assign(N,{
+ro1:{s:'o',p:'tr',sp:'R',t:'Una silueta con tacones apaga la luz del pasillo: Rose. Labios de tinta, abrigo abierto, perfume caro. —Cariño, la Duquesa Valmont me llamó antes que a ti. Dice que hay un segundo cheque si las joyas aparecen... y si aparece quien se las llevó. Yo solo vengo a ayudarte. Como siempre.',ch:[['Confiar en ella: \"Cuéntamelo todo, Rose.\"','ro2',{ro:1}],['Sospechar: \"¿Desde cuándo hablas con la Duquesa?\"','ro2',{ro:-1,c:1}]]},
+ro2:{s:'o',p:'tr',sp:'R',t:'Tu lista es demasiado fácil: cinco, pelo largo, gorra. Hay un tercer nombre en el expediente de la Duquesa que nadie ha querido leerte. —Me acerca el papel con dos dedos—. Sterling. El coronel Vance Sterling.',ch:[['Se me hiela la sangre. Ese nombre no.','fl1',{i:'Nombre Sterling'}]]},
+fl1:{s:'r',p:'tfv',sp:'V',t:FB+'Colina 112. Barro hasta las rodillas. El coronel Vance Sterling nos sonríe como quien reparte billetes: —Chicos, el puente es vuestro. Pasadlo y volveréis héroes. Five tiene diecinueve años y le tiembla el fusil. Yo le sujeto el hombro.',ch:[['Seguir recordando','fl2']]},
+fl2:{s:'r',p:'tfv',sp:'N',t:FB+'El puente estaba minado. Lo supimos al pisarlo. Sterling había vendido nuestra ruta y se alejaba con la caja de pagos de la compañía. Murió medio batallón. Yo perdí un oído y la fe; Five, la voz durante tres meses y el resto después. Lo perdimos casi todo en el Año Rojo.',ch:[['Volver a la lluvia','tr1',{c:1,i:'Recuerdo del puente'}]]},
+fv1:{s:'b',p:'f',sp:'F',t:'Quintana no manda, Tive. Trabaja para el mismo hombre que nos mandó al puente. Sterling está vivo. Es el dueño de Valmont & Hijos... y por eso McCoil rastrea tus pasos. Por eso la Duquesa pagó tanto: quería a alguien con ganas de venganza.',e:{c:1},ch:[['Apretar la mandíbula y salir hacia el muelle','cn1']]},
+ro3:{s:'w',p:'tr',sp:'R',t:'Antes de entrar, una silueta sale de entre los contenedores y levanta una pistola con las dos manos. —Lo siento, cariño. Sterling me pagó la deuda de mi hermano. Y esta noche me pide que te lleve hasta él.',ch:[['Mirarla a los ojos: \"Baja el arma, Rose. Tú no eres ella.\"',s=>s.ro>=1?'ro4a':'ro4b'],['Enseñarle el recuerdo del puente: \"Sterling nos vendió, Rose.\"','ro4a',{ro:1}],['Desarmarla de un movimiento rápido','ro5']]},
+ro5:{s:'w',p:'tr',sp:'N',t:'Te lanzas hacia su muñeca. Acierta con el tiempo o paga con sangre.',qte:{n:2,ok:'ro4a',ko:'ro4c'}},
+ro4a:{s:'w',p:'tr',sp:'R',t:'Baja el arma despacio. —Nunca me dijo que el trabajo eras tú. Entremos, Tive. Se lo debo a tu hermano y se lo debo a tu sombrero.',e:{ro:1},ch:[['Entrar con ella a mi lado','w1']]},
+ro4b:{s:'w',p:'tr',sp:'R',t:'No te creí cuando lo dije, y tú tampoco me creíste a mí. —El culatazo llega antes que la disculpa—. Perdona, cariño. Sterling espera dentro.',e:{h:-1,ro:-1},ch:[['Levantarte y entrar sangrando','w1']]},
+ro4c:{s:'w',p:'tr',sp:'R',t:'El disparo te roza el hombro. Rose te mira con los ojos húmedos. —Qué estúpidos somos los dos. Entra. Él está esperando.',e:{h:-1},ch:[['Apretar la herida y entrar','w1']]},
+st1:{s:'w',p:'tv',sp:'V',t:'Aplausos lentos desde la pasarela. —Cabo Tive. Dieciséis años y sigues oliendo a pólvora y a lealtad barata. Yo compré la guerra, hijo. Tú solo la sangraste.',ch:[['Recordar la última noche del Año Rojo','fl3',{c:1}],['Desenfundar contra Sterling','duel2'],['Callar, dar una calada y esperar a Rose',s=>s.ro>=2?'end11':'end10']]},
+fl3:{s:'r',p:'tv',sp:'V',t:FB+'La última noche del Año Rojo. Sterling cuenta billetes con la caja entre las piernas mientras el puente arde. —Un héroe muerto es barato, cabo. Un héroe vivo pide pensión. —Me apunta. Five se abalanza; el disparo me roza la sien. Lo último que oigo es el pitido del oído roto y a mi hermano gritando que no me muera.',ch:[['Volver al almacén','st2']]},
+st2:{s:'w',p:'tv',sp:'V',t:'—Qué conmovedor. No hay testigos, cabo. Nunca los hubo.',ch:[['Sacar las pruebas: foto, cerilla, recuerdo',s=>s.c>=3&&s.ro>=0?'end9':'end10'],['Mirar a Rose: \"Ahora.\"',s=>s.ro>=2?'end11':'end10']]},
+duel2:{s:'w',p:'tv',sp:'N',t:'Sterling es viejo, pero no lento. Dispara cuando la barra esté en verde.',qte:{n:3,ok:'end9',ko:'end10'}},
+end9:{s:'e',sp:'X',end:1,t:'FINAL 9 de 12 · AÑO ROJO, CUENTAS SALDADAS\n\nSterling salió esposado y sin medallas. Five declaró ante el tribunal con la voz que creía perdida. Rose me dejó un cigarrillo en la barra y se fue sin explicar nada. Tarde, pero el puente por fin cayó del lado correcto.'},
+end10:{s:'e',sp:'X',end:1,t:'FINAL 10 de 12 · EL CORONEL SIGUE VIVO\n\nSterling se perdió en la niebla del muelle con una sonrisa y una maleta. La guerra terminó hace años; él nunca la dejó acabar. Rose dice que algún día volverá. Yo ya no sé a quién esperar.'},
+end11:{s:'e',sp:'X',end:1,t:'FINAL 11 de 12 · LA ROSA Y LA BALA\n\nRose disparó primero. Sterling cayó de la pasarela con las medallas tintineando. Ella se desplomó despacio, con el abrigo abierto y la sonrisa torcida. —Esta vez no te mentí, cariño. Fumé su último cigarrillo en su honor.'}});
+N.m1.ch[2][1]='ro1';N.o2.ch[0][1]='ro1';
+N.bar3.t+=' Y Tive... quien lo contrata no es Quintana. Es alguien que conocemos de Colina 112.';
+N.bar3.ch[0][1]=N.bar3.ch[1][1]='fv1';
+N.ch2.ch[0][1]=N.ch3.ch[0][1]='ro3';
+N.w1.ch.push(['Mirar a la pasarela: alguien aplaude','st1']);
+N.help.t=N.help.t.replace('hay 8 finales','hay 11 finales, un flashback del Año Rojo y a Rose de por medio');
+})();
+</script><script>
+(()=>{
+CH.k={};NM.K='KNIVE';
+DR.k=c=>{const[,r]=HH(c);c.save();c.translate(64,0);c.scale(-1,1);DR.t(c);c.restore();r('#fff',30,13,1,7);r('#111',31,20,5,1)};
+LG.k=LG.t.slice(0,7).concat(-1);CL.k=66;
+const r1=rs;rs=function(){r1();S.al=0;S.nm=0};S.al=0;S.nm=0;
+Object.assign(N,{
+al1:{s:'b',p:'fs',sp:'S',t:'Escucha, Tive. Sterling me dejó sin pensión y sin aseguradora hace tres años. Eres el único idiota que lo odia más que yo. Alianza: yo pongo los contactos, tú las manos sucias.',ch:[['Estrecharle la mano: \"Trato hecho, McCoil.\"','tr2',{al:1,c:1,l:1}],['\"No necesito un perro de seguros.\"','tr2']]},
+tr2:{s:'c',p:'tf',mv:1,sc:1.6,sp:'F',t:'Voy al volante del cacharro de Five, que huele a lluvia vieja. —¿Te acuerdas de cuando papá nos llevaba a ver los barcos? Knive lloró porque quería uno de verdad.',ch:[['\"¿Por qué sacas a Knive ahora?\"','car2']]},
+car2:{s:'c',p:'tf',mv:1,sc:1.6,sp:'F',t:'Knive era el listo, Tive. Se parece tanto a ti que a veces dudo cuál de los dos soy. Dejó el ejército antes del Año Rojo y no volvió a escribir. Dicen que trabaja para gente de uniforme.',ch:[['Poner la radio y callar','car3',{l:1}],['\"Knive nos vendió en cuanto pudo.\"','car3']]},
+car3:{s:'c',p:'tf',mv:1,sc:1.6,sp:'T',t:'La radio suelta un tango roto. Five mira por la ventanilla. —Si lo ves, no le hables. Te sonreirá con tu cara y te clavará con tu navaja. —Frenazo: un coche negro bloquea la carretera.',ch:[['Bajar del coche','cnk']]},
+cnk:cn([[2800,'c','t','Un coche negro cierra la carretera.',{fx:'th'}],[3200,'c','tk','Un hombre baja con mi sombrero, mi gabardina y mi cara.',{fl:1}]],'kn1'),
+kn1:{s:'c',p:'tk',sp:'K',t:'Hola, hermano. ¿Te gusta cómo me queda? El coronel me ofreció lo que ni tú ni Five podíais darme: ganar. Quintana es un payaso y tú, un detective con la suerte de un perro mojado. Entrégame las joyas y los dos vivís.',ch:[['\"Prefiero la lluvia a tu trato.\"','kn2'],['Ofrecerle un cigarrillo para ganar tiempo','kn2',{l:-1}]]},
+kn2:{s:'c',p:'tk',sp:'N',t:'Knive saca una navaja gemela de la que yo guardo. Esquiva y contraataca cuando la barra marque el momento.',qte:{n:3,ok:'kn3',ko:'kn4'}},
+kn3:{s:'c',p:'tk',sp:'K',t:'Le arranco el sombrero. Debajo, una cicatriz que yo no tengo. —Esto no acaba aquí, hermano. —Y se pierde en la niebla dejando su navaja en el charco.',e:{c:1,i:'Navaja de Knive'},ch:[['Recoger la navaja','m3']]},
+kn4:{s:'c',p:'tk',sp:'K',t:'Un tajo en el abrigo y un golpe seco. Knive me quita el sombrero y se lo pone con aire de dueño. —Quédatelo, ya tengo otro. —Se va silbando mi propia canción.',e:{h:-1},ch:[['Levantarme con la ceja abierta','m3']]},
+m3:{s:'c',p:'tm',sp:'M',t:'Un bastón golpea el adoquín. Me lo encuentro bajo la farola, empapado y sereno. —Chaval, Knive no es malo por naturaleza: es malo por contrato. Y todo contrato tiene una cláusula. Busca la suya, y cuando lo hagas, yo negociaré por ti.',e:{nm:1,c:1},ch:[['\"Gracias, maestro. Vamos al muelle.\"','cn5']]},
+cn5:cn([[2600,'d','tf','Muelle Norte. La niebla huele a gasolina y a promesas.',{fx:'th'}],[2800,'d','tf','Una silueta tambaleante se acerca contando algo a las gaviotas.',{fl:1}]],'dock1'),
+end12:{s:'e',sp:'X',end:1,t:'FINAL 12 de 12 · EL PACTO DE LOS TRES\n\nMcCoil entró por la claraboya con una orden de arresto y sonrisa de comisionista. El Negociante Negociado cerró el último trato de su vida: la rendición de Sterling a cambio de conservar su bastón. Knive huyó con mi sombrero, pero esa es otra historia. Five me abrazó. Rose dejó el cigarrillo encendido. Por una vez, llovió a favor.'}});
+['mc2','mc3','mc4','mc5'].forEach(k=>N[k].ch[0][1]='al1');
+N.bar3.ch[0][2]={f:1};
+N.st1.ch.push(['Silbar: McCoil y El Negociante entran por el techo','end12',{},s=>s.al&&s.nm]);
+Object.assign(N.dock1,{t:'¡Tive! Qué susto, pensé que eras mi sombrero. Es que mi sombrero también habla, ¿sabes? Me ha dicho que no te cuente nada del Almacén 9... ¡Uy! Se me escapó. ¿Quieres un caramelo? Son de regaliz. Creo.'});
+N.dock2.t='Ah, la cerilla. Es del Almacén 9, sí. Yo solo cargaba maletas. Sterling me daba \"medicinas para el nervio\" y me quedaba dormido de pie. Si quieres acabar con esto, ven. Pero cuidado con el suelo, que se mueve.';
+N.dock3.t='¿Testigos? Yo también tengo: los pájaros. Siempre me miran. Almacén 9, medianoche. Si no vengo, es que me dormí.';
+N.dock4.t='Fumas como quien reza. Yo respiro como quien se olvida. ¿Dónde estaba? Ah, sí: Almacén 9. Hablemos como hombres. O como pájaros. Lo que salga.';
+N.w1.t='Mira el brillo, Tive. Cuatro millones en una maleta. Tu hermano la sujetaba... o yo, no me acuerdo. ¿Y ahora? ¿Qué vas a hacer, detective? ...Perdona, me ha entrado la risa.';
+N.ch1.t='John salta cajas, contenedores y, por algún motivo, una gaviota. El Almacén 9 está a cien metros. Salta cuando la barra marque el momento.';
+N.ch2.t='Placaje limpio. John suelta su revólver, se disculpa y pregunta si es martes.';
+N.duel.t='Los dos desenfundan. John saca un bocadillo por error, lo mira, lo tira y vuelve a empezar. ¡Dispara cuando la barra esté en verde!';
+N.end5.t='FINAL 5 de 12 · LUZ APAGADA\n\nFive tiró de la cadena de la lámpara. Oscuridad, un disparo al techo, un grito de gaviota. Cuando volvió la luz, John dormía en el suelo, sano y salvo, y mi hermano temblaba con mi arma. Las joyas volvieron. Five también.';
+N.end6.t='FINAL 6 de 12 · ÚLTIMO CIGARRILLO\n\nFui lento. Hasta John fue más rápido, y eso que se distrajo con una mariposa. El suelo frío, la lluvia en el techo, el último cigarrillo apagándose en mi mano. Lo último que oí fue a mi hermano diciendo mi nombre.';
+N.end7.t='FINAL 7 de 12 · EL MEJOR DE LA CIUDAD\n\nGané el duelo. John cayó dormido con la gorra rodando por el suelo, sonriendo, y Spoil McCoil llegó tarde para llevarse el crédito, como siempre. Five bajó la mirada. Yo me quedé con la lluvia y el humo.';
+N.help.t=N.help.t.replace('11 finales','12 finales');
+})();
+</script><script>
+(()=>{
+CH.c={};NM.C='CHRISTOR CARLINSTEIN CRAWFORD';
+DR.c=c=>{const[p]=HH(c);c.save();c.translate(64,0);c.scale(-1,1);DR.v(c);c.restore();p([24,-1,40,-1,40,9,24,9],'#111','#000');p([19,9,45,9,47,11,17,11],'#222','#000');p([26,25,30,25,42,50,38,50],'#ddd','#888')};
+LG.c=LG.v.slice(0,7).concat(-1);CL.c=66;
+SC.h=()=>{R(0,0,W,H,K);for(let b=0;b<8;b++)dz(0,b*7,W,7,b%2?D:E,b<2?K:D);for(let i=0;i<5;i++){R(8+i*40,18,3,68,M);R(4+i*40,18,12,3,P)}
+for(let y=-22;y<=22;y++)for(let x=-15;x<=15;x++){const q=x*x/225+y*y/484;if(q<=1)R(96+x,42+y,1,1,q>.8?L:(x<0?P:M))}
+R(70,66,52,4,P);R(0,86,W,22,D);dz(0,88,W,20,E,D);R(94,28,1,14,X);R(97,36,1,10,X);R(92,52,6,1,X)};
+SC.k=()=>{R(0,0,W,H,D);for(let b=0;b<6;b++)dz(0,b*10,W,10,b%2?E:D,b<2?K:D);R(66,16,60,4,P);R(66,16,4,70,P);R(122,16,4,70,P);for(let i=0;i<24;i++)R(i*8,6+(i%2)*3,2,2,X);
+R(0,86,W,22,E);dz(0,90,W,18,M,E);for(let i=0;i<30;i++)R((i*37)%W,88+(i*11)%18,2,1,X);R(8,66,26,20,M);R(8,66,26,2,P)};
+const r1=rs;
+Object.assign(N,{
+casos:{s:'m',p:'t',menu:1,sp:'N',t:'Elige un caso.\nCaso 1: Las joyas Ámbar.\nCaso 2: El Huevo de Tiamat (sucede después del caso 1).',ch:[['Caso 1: Las joyas Ámbar','@intro'],['Caso 2: El Huevo de Tiamat','@c2'],['Volver','s0']]},
+c2_0:cn([[3200,'m','','Seis semanas después del caso Ámbar. La Ciudad Sombría tiene alcalde nuevo y miedo viejo.'],[3200,'h','c','Christor Carlinstein Crawford. Alcalde. Sonrisa de cirujano.',{fx:'th'}],[3200,'h','c','\"Entréguenme la ciudad o mi Huevo de Tiamat se la llevará.\"',{fl:1}]],'c2_1'),
+c2_1:{s:'o',p:'tr',sp:'R',t:'Rose deja el periódico sobre la mesa. —El alcalde amenaza con destruir el mundo con una cosa llamada El Huevo de Tiamat. Cariño, te has puesto pálido.',ch:[['\"Conozco ese huevo. Lo vi en la guerra.\"','c2_2']]},
+c2_2:{s:'r',p:'tv',sp:'V',t:'[FLASHBACK · GUERRA DEL AÑO ROJO]\nUn búnker bajo la Colina 112. El coronel Sterling, aún honesto, me enseña un huevo de acero del tamaño de un caballo. —Esto no se usa, cabo. Se entierra. Prométeme que si alguien lo despierta, lo harás callar.',ch:[['Volver a la lluvia','c2_3']]},
+c2_3:{s:'o',p:'tm',sp:'M',t:'Un bastón golpea el suelo. —Chaval, un alcalde con un arma del fin del mundo es un mal contrato. Pero ninguno de nosotros ha ganado solo. Llama a los tuyos.',ch:[['Llamar a mis aliados','c2_4']]},
+c2_4:cn([[2800,'b','tf','Five llega primero. Siempre llega primero cuando hay problemas.'],[2800,'b','tfs','Spoil McCoil entra con una carpeta y un paraguas: ya es parte del equipo.'],[2800,'d','tj','John Quintana aparece disfrazado de farola. Nadie sabe por qué.']],'c2_5'),
+c2_5:{s:'d',p:'tj',sp:'J',t:'¡Tive! Soy una farola muy discreta. Escucha: Knive me dio caramelos para que le abriera la reja del ayuntamiento. Eran buenísimos, creo que eran de menta. O de sedante.',ch:[['\"Gracias, John. Eres un tesoro involuntario.\"','c2_6',{c:1}],['Quitarle el disfraz con suavidad','c2_6',{c:1,l:1}]]},
+c2_6:{s:'c',p:'tf',mv:1,sc:1.6,sp:'F',t:'Vamos hacia el ayuntamiento en el cacharro de Five. —¿Y si Knive tiene razón? Que somos hermanos solo de nombre. Nunca he sabido por qué me parezco tanto a ti.',ch:[['\"Eres mi hermano. No lo olvides.\"','c2_7',{l:1}],['Callar y encender un cigarrillo','c2_7']]},
+c2_7:{s:'c',p:'tf',mv:1,sc:1.6,sp:'F',t:'Christor se parece a alguien, Tive. Lo vi en el cartel de campaña: el mentón, la forma de mirar... Se parece a alguien que ya conocemos. —Frenazo: algo bloquea la carretera.',ch:[['Bajar del coche','c2_8']]},
+c2_8:cn([[2800,'c','t','Un coche negro bloquea la carretera.',{fx:'th'}],[3200,'c','tk','Knive baja con mi sombrero, mi gabardina y mi cara.',{fl:1}]],'c2_9'),
+c2_9:{s:'c',p:'tk',sp:'K',t:'Hermano. El Huevo despertará esta noche y tú vas a ver lo que eres de verdad. ¿Nunca te preguntaste por qué nuestro padre no sale en ninguna foto?',ch:[['Desenfundar la navaja','c2_10']]},
+c2_10:{s:'c',p:'tk',sp:'N',t:'Knive embiste. Esquiva y contraataca cuando la barra marque el momento.',qte:{n:3,ok:'c2_11',ko:'c2_12'}},
+c2_11:{s:'c',p:'tk',sp:'K',t:'Le arranco la navaja de la mano. —Qué torpe soy. Me dejo la tarjeta del ayuntamiento en el bolsillo... —Se ríe y se pierde en la niebla.',e:{c:1,i:'Tarjeta del ayuntamiento'},ch:[['Recoger la tarjeta','c2_13']]},
+c2_12:{s:'c',p:'tk',sp:'K',t:'Un tajo en el abrigo y un golpe seco. —Sigues sin entenderlo —susurra Knive—. Nos vemos dentro.',e:{h:-1},ch:[['Levantarme y seguir','c2_13']]},
+c2_13:{s:'o',p:'tr',sp:'R',t:'Rose despliega un papel quemado de la caja fuerte de Valmont. —Proyecto Génesis. Falta más de la mitad. Pero aparece tu nombre, cariño. Y el de Five, y el de Knive.',e:{c:1},ch:[['Guardarlo sin leerlo más','c2_14']]},
+c2_14:{s:'b',p:'fs',sp:'S',t:'Plan, detective. El Negociante distrae al alcalde con un contrato imposible. Yo ordeno los papeles. John entretiene a los guardias... vestido de farola. Rose cubre la salida. Vosotros dos, al Huevo.',ch:[['\"Me gusta. Es una locura con papeleo.\"','c2_15',{l:1}],['\"Sin fallos, McCoil. Ni uno.\"','c2_15']]},
+c2_15:cn([[2800,'c','tfs','Noche. Ayuntamiento de la Ciudad Sombría.',{fx:'th'}],[3000,'h','tc','Christor los esperaba, de espaldas, junto a un huevo de acero.',{fl:1}]],'c2_16'),
+c2_16:{s:'h',p:'tc',sp:'C',t:'Detective Tive. Qué familiar me resulta usted. Quiero un mundo sin ruido, sin hermanos, sin guerras. El Huevo de Tiamat lo callará todo. Solo necesito su llave, y usted ya la lleva.',ch:[['\"Por encima de mi cadáver.\"','c2_17'],['\"Hablemos. Soy detective, no mártir.\"','c2_17',{l:-1}]]},
+c2_17:{s:'h',p:'tc',sp:'N',t:'Los guardias cierran el cerco. Resiste el primer asalto cuando la barra marque el momento.',qte:{n:3,ok:'c2_18',ko:'c2_19'}},
+c2_18:{s:'h',p:'tf',sp:'F',t:'Five rompe una lámpara en la cabeza de un guardia. —¡Sigue! ¡Yo me ocupo de estos!',ch:[['Avanzar hacia el Huevo','c2_20']]},
+c2_19:{s:'h',p:'tf',sp:'F',t:'Un culatazo me sienta en el suelo. Five tira de mi abrigo. —Levántate, hermano. Hoy no.',e:{h:-1},ch:[['Levantarme','c2_20']]},
+c2_20:{s:'h',p:'tk',sp:'K',t:'Te esperaba, hermano. ¿Te acuerdas de papá? Yo tampoco. Porque nunca tuve uno. Hoy el mundo conocerá a sus copias.',ch:[['Cargar contra Knive','c2_21']]},
+c2_21:{s:'h',p:'tk',sp:'N',t:'Duelo de navajas bajo el Huevo. Esquiva y ataca cuando la barra marque el momento.',qte:{n:3,ok:'c2_23',ko:'c2_22'}},
+c2_22:{s:'h',p:'tk',sp:'K',t:'Me abre una ceja. Cuando creo que es el final, una sombra detiene su brazo desde la penumbra.',e:{h:-1},ch:[['Mirar hacia la sombra','c2_23']]},
+c2_23:{s:'h',p:'tv',sp:'V',t:'Hola, cabo. Cinco años escondido para esta noche. Me alegra verte tan entero. El Huevo no es un arma: es una forja. De ahí salieron Five, Knive y Christor. Los tres son tú, hijo. Tomé tu sangre en el puente.',ch:[['\"¿Qué has hecho, Sterling?\"','c2_24']]},
+c2_24:{s:'h',p:'tv',sp:'V',t:'Five fue el obediente, Knive el defectuoso y Christor el perfecto: tu corazón con mi rostro. Todos mis hijos... y todos tus clones. ¿Nunca te preguntaste por qué Christor te recuerda tanto a mí?',ch:[['Mirar a Five','c2_25']]},
+c2_25:{s:'h',p:'tf',sp:'F',t:'Entonces... no soy tu hermano. Soy una copia con la voz rota. —Se le quiebra el hombro entero.',ch:[['\"Eres mi hermano. Lo demás es papel y tubo.\"','c2_26',{l:1}],['Abrazarlo sin decir nada','c2_26',{l:1}]]},
+c2_26:{s:'h',p:'tcm',sp:'M',t:'Christor activa el Huevo; un zumbido recorre la ciudad. El Negociante entra con el bastón. —Todo se negocia, hijo, menos la verdad: no eres Sterling, eres el hijo de lo que más odias. Piénsalo antes de apretar.',ch:[['Aprovechar su duda y lanzarte','c2_27']]},
+c2_27:{s:'h',p:'tc',sp:'N',t:'Christor vacila. Corta los cables del Huevo cuando la barra marque el momento. ¡Cuatro cortes!',qte:{n:4,ok:'c2_28',ko:'c2_29'}},
+c2_28:{s:'h',p:'tvs',sp:'S',t:'Los cables saltan en chispas y el Huevo se apaga. Spoil McCoil aparece con esposas. —Vance Sterling: fraude del siglo, falsificación de seres humanos e impago de seguro. Queda detenido.',ch:[['Mirar a Sterling','c2_30']]},
+c2_29:{s:'h',p:'tc',sp:'N',t:'Una descarga te sacude. Cae un cable y Five lo aparta con el cuerpo. El Huevo se apaga justo a tiempo.',e:{h:-1},ch:[['Levantarme','c2_30']]},
+c2_30:{s:'h',p:'tv',sp:'V',t:'Antes de que me lleven, cabo... Tú tampoco eres el original. Eres un clon mío, el primero y el mejor. Por eso me traicionaste: por eso me heredaste.',ch:[['Sostenerle la mirada','c2_31']]},
+c2_31:{s:'h',p:'tr',sp:'R',t:'Me tiemblan las manos. Rose me las sostiene. —Cariño, mírame. Tive es quien fuma bajo la lluvia, quien se queda con su hermano, quien no acusa sin pruebas. Eso no sale de ningún tubo. Eres Tive. Eso basta.',ch:[['Encender un cigarrillo y sonreír','c2_32',{l:1}],['Besarla bajo el Huevo apagado','c2_32',{l:1}]]},
+c2_32:cn([[3500,'k','tr','Un año después. El Año Rojo ya es historia. Llueve a favor.'],[3800,'k','trfsm','Rose y Tive se dan el \"sí\". Five, McCoil y el Negociante lloran sin admitirlo.'],[3500,'k','trfsm','Al fondo, John Quintana aplaude... al revés.']],'end13'),
+end13:{s:'e',sp:'X',end:1,t:'FINAL · UNA BODA BAJO LA LLUVIA\n\nEl Huevo de Tiamat es chatarra y Sterling, un recuerdo. Christor, Knive y Five dejaron de ser copias el día en que escogieron quién ser. Tive no sabe quién lo creó, pero sabe quién lo quiere. Todo acaba bien.'}});
+N.s0.ch.splice(1,0,['Casos','casos']);
+const _a=act;act=function(c,B){if(c[1]=='@c2'){rs();return go('c2_0')}return _a(c,B)};
+N.help.t+=' En Casos puedes jugar el Caso 1 (Las joyas Ámbar) y el Caso 2 (El Huevo de Tiamat).';
+})();
+</script><script>
+(()=>{
+let SV={a:0,c:20,r:0,w:{own:['rev'],eq:'rev'},inv:{dz:0,las:0,mec:0,te:0}};
+try{const s=JSON.parse(localStorage.getItem('tiveX'));if(s)SV=Object.assign(SV,s)}catch(e){}
+['cha','mun','cig','lupa','caf'].forEach(k=>SV.inv[k]=SV.inv[k]||0);SV.w=SV.w||{own:['rev'],eq:'rev'};
+const WP={rev:{n:'Revólver',amm:6,rt:1200,tr:1,rd:0,p:0},tac:{n:'Pistola táctica',amm:10,rt:900,tr:.8,rd:1,p:60},esc:{n:'Escopeta',amm:4,rt:1600,tr:1.1,rd:5,p:90},rif:{n:'Rifle de precisión',amm:5,rt:1400,tr:.4,rd:2,p:120}};
+const sv=()=>{try{localStorage.setItem('tiveX',JSON.stringify(SV))}catch(e){}};window.SVX=SV;window.SVSAVE=sv;
+const xc=document.createElement('canvas');xc.width=W;xc.height=H;xc.style.cssText='position:absolute;inset:0;width:100%;height:100%;display:none;z-index:2;touch-action:none';
+$('cw').appendChild(xc);const xg=xc.getContext('2d');
+const f=(c,x,y,w,h)=>{xg.fillStyle=c;xg.fillRect(x|0,y|0,w,h)};
+const tx=(t,x,y,c,z,al)=>{xg.fillStyle=c||X;xg.font='bold '+(z||11)+'px VT323,monospace';xg.textAlign=al||'left';xg.fillText(t,x,y);xg.textAlign='left'};
+const IT={dz:{n:'Diazepam',p:25,u:'c',m:'sh',d:'Pulso firme: el temblor baja un 80%.'},las:{n:'Mira láser',p:20,u:'c',m:'sh',d:'Radio de impacto mayor.'},
+mec:{n:'Mechero de oro',p:30,u:'a',m:'sm',d:'Márgenes de acierto un 60% más amplios.'},te:{n:'Té de tila',p:15,u:'c',m:'sm',d:'Te perdona el primer fallo.'},cha:{n:'Chaleco antibalas',p:40,u:'c',m:'sh',d:'+1 vida.'},mun:{n:'Cargador extendido',p:30,u:'c',m:'sh',d:'+3 balas.'},cig:{n:'Cigarrillo de la suerte',p:20,u:'a',m:'sm',d:'La primera calada cuenta como perfecta.'},lupa:{n:'Lupa de detective',p:15,u:'c',m:'pz',d:'Descarta una opción incorrecta.'},caf:{n:'Café cargado',p:20,u:'c',m:'pz',d:'Perdona el primer error.'}};
+const rk=r=>r>=50?'Leyenda':r>=25?'Respetado':r>=10?'Conocido':'Novato';
+const stat=()=>'Aura: '+SV.a+'   Monedas: '+SV.c+'\nReputación de Tive: '+SV.r+' ('+rk(SV.r)+')';
+let mode=null,use={},fr2=0;
+const ui=(w,t,b)=>{clearInterval(iv);typing=false;cur={s:'e',p:'',sp:'N',t:'',ch:[]};g=bx;g.clearRect(0,0,W,H);SC.e();g=vg;
+$('who').textContent=w;$('txt').textContent=t;$('hud').textContent='';const c=$('ch');c.innerHTML='';
+b.forEach((x,i)=>{const B=document.createElement('button');B.textContent=(i+1)+'. '+x[0];B.onclick=()=>{sfx('c');x[1]()};c.appendChild(B)});
+if(document.activeElement)document.activeElement.blur()};
+function loop(){if(!mode)return;fr2++;xg.imageSmoothingEnabled=false;xg.clearRect(0,0,W,H);mode.draw();requestAnimationFrame(loop)}
+const open=m=>{mode=m;xc.style.display='block';xc.style.cursor=m.cur||'default';loop()};
+const close=()=>{mode=null;xc.style.display='none'};
+function xmenu(){close();use={};ui('MODOS EXTRA',stat()+'\n\nGana aura y reputación. Compra consumibles en la tienda antes de empezar.',
+[['Fumar con estilo (ritmo)',()=>pre('sm')],['Operación Cuervo (tiro en primera persona)',()=>pre('sh')],['Puzles de detective',()=>pre('pz')],['Tienda',shop],['Volver al menú',()=>go('s0')]])}
+function shop(m){const b=Object.keys(IT).map(k=>{const i=IT[k];return[i.n+' – '+i.p+(i.u=='c'?' monedas':' aura')+' (tienes '+SV.inv[k]+') · '+i.d,()=>{
+if(SV[i.u]>=i.p){SV[i.u]-=i.p;SV.inv[k]++;sv();shop('Comprado: '+i.n)}else shop('No tienes suficiente '+(i.u=='c'?'dinero':'aura')+'.')}]});
+Object.keys(WP).filter(k=>!SV.w.own.includes(k)).forEach(k=>b.splice(b.length,0,['ARMA: '+WP[k].n+' – '+WP[k].p+' monedas · '+WP[k].amm+' balas, recarga '+WP[k].rt+'ms',()=>{if(SV.c>=WP[k].p){SV.c-=WP[k].p;SV.w.own.push(k);SV.w.eq=k;sv();shop('Arma comprada y equipada: '+WP[k].n)}else shop('No tienes suficiente dinero.')}]));b.push(['Atrás',xmenu]);ui('TIENDA',stat()+'\n'+(m||'Los consumibles se gastan al usarlos.'),b)}
+function pre(m){const ks=Object.keys(IT).filter(k=>IT[k].m==m&&SV.inv[k]>0);
+const b=ks.map(k=>[(use[k]?'[x] ':'[ ] ')+IT[k].n+' (x'+SV.inv[k]+')',()=>{use[k]=!use[k];pre(m)}]);b.unshift(['¡Empezar!',()=>m=='sm'?sm():m=='sh'?sh():pz()]);
+if(m=='sh')b.splice(1,0,['Arma: '+WP[SV.w.eq].n+' (cambiar)',()=>{const o=SV.w.own;SV.w.eq=o[(o.indexOf(SV.w.eq)+1)%o.length];sv();pre(m)}]);b.push(['Atrás',xmenu]);
+const D={sm:['FUMAR CON ESTILO','8 caladas. Pulsa ESPACIO (o toca) en el momento exacto: aro, mantener y soltar, o doble pulsación. Acierta y subes aura y reputación.'],
+sh:['OPERACIÓN CUERVO','45 segundos. Dispara (clic/toque) a los matones: gorra y pistola. NO a los inocentes: paraguas y sombrero. 3 vidas. R recarga. Tu pulso tiembla cada vez más; hay lluvia, relámpagos y camiones que tapan la vista.'],
+pz:['PUZLES DE DETECTIVE','5 casos de deducción. Acierta para ganar aura, monedas y reputación; fallar cuesta aura.']}[m];
+ui(D[0],D[1]+'\n\nConsumibles a usar:'+(ks.length?'':' ninguno (compra en la tienda)'),b)}
+const spend=()=>{Object.keys(use).forEach(k=>{if(use[k]&&SV.inv[k]>0)SV.inv[k]--});};
+let kd=null,ku=null,pdn=null,pmv=null;
+addEventListener('keydown',e=>{if(!mode)return;if(e.key==' '){e.preventDefault();if(!e.repeat&&mode.dn)mode.dn()}if((e.key=='r'||e.key=='R')&&mode.rl)mode.rl()});
+addEventListener('keyup',e=>{if(mode&&e.key==' '&&mode.up)mode.up()});
+const pos=e=>{const b=xc.getBoundingClientRect();return[(e.clientX-b.left)/b.width*W,(e.clientY-b.top)/b.height*H]};
+xc.addEventListener('pointerdown',e=>{if(!mode)return;e.preventDefault();mode.pd&&mode.pd(...pos(e));mode.dn&&mode.dn()});
+xc.addEventListener('pointerup',()=>{mode&&mode.up&&mode.up()});
+xc.addEventListener('pointermove',e=>{mode&&mode.pm&&mode.pm(...pos(e))});
+function end(title,s,extra){close();sv();ui(title,extra+'\n\nAura ganada/perdida: '+(s.au>=0?'+':'')+s.au+'   Reputación: +'+s.rp+'\n'+stat(),[['Volver a jugar',()=>pre(s.k)],['Modos extra',xmenu]])}
+/* ---------- MODO 1: FUMAR ---------- */
+function sm(){spend();sv();
+const s={k:'sm',i:0,N:8,cb:0,au:0,rp:0,ok:0,tol:use.mec?1.6:1,fr:use.te?1:0,ph:'',msg:'Prepárate...',pf:[]};
+const nx=()=>{if(mode!==s)return;if(s.i>=s.N)return end('FIN DE LA CALADA',s,'Aciertos: '+s.ok+'/'+s.N+'. '+(s.ok>=6?'Tive fuma como un dios del noir.':s.ok>=3?'Nada mal, detective.':'Se te apagó el cigarrillo.'));
+s.i++;s.ty=s.i==1?0:Math.random()*3|0;s.ph='go';s.t0=performance.now();s.pr=[];s.hs=0;s.cue=600+Math.random()*1000;s.wd=Math.random()*6;s.msg=''};
+const res=(q,m)=>{if(s.ph!='go')return;s.ph='res';if(q&&use.cig&&s.i==1)q=2;
+if(q){s.cb++;s.ok++;const a=q*4+Math.min(s.cb,5);SV.a+=a;s.au+=a;SV.c++;if(q==2||s.cb%2==0){SV.r++;s.rp++}s.msg=(q==2?'¡PERFECTO! ':'Bien. ')+'+'+a+' aura';sfx('s');for(let k=0;k<12;k++)s.pf.push({x:57,y:48,vx:Math.random()*.7,vy:-.3-Math.random()*.5,a:1})}
+else if(s.fr){s.fr=0;s.msg=m+' El té te salva.'}else{s.cb=0;SV.a=Math.max(0,SV.a-3);s.au-=3;s.msg=m+' -3 aura'}
+sv();setTimeout(nx,900)};
+const rad=e=>30-e*18+3*Math.sin(e*5+s.wd);
+s.dn=()=>{if(s.ph!='go')return;const e=(performance.now()-s.t0)/1000;
+if(s.ty==0){const d=Math.abs(rad(e)-8);res(d<=2*s.tol?2:d<=5*s.tol?1:0,'Fuera de tiempo.')}
+else if(s.ty==1){if(!s.hs)s.hs=performance.now()}
+else{if(e<s.cue/1000)res(0,'¡Demasiado pronto!');else{s.pr.push(performance.now());if(s.pr.length==2){const dt=s.pr[1]-s.pr[0];res(dt<250*s.tol?2:dt<500*s.tol?1:0,'Muy lento.')}}}};
+s.up=()=>{if(s.ph=='go'&&s.ty==1&&s.hs){const b=(performance.now()-s.hs)/1300,lo=.6-.07*(s.tol-1),hi=.85+.07*(s.tol-1);
+res(Math.abs(b-(lo+hi)/2)<.05?2:b>=lo&&b<=hi?1:0,b<lo?'Calada corta.':'Demasiado larga.')}};
+s.draw=()=>{const now=performance.now(),e=(now-s.t0)/1000;
+if(s.ph=='go'){if(s.ty==0&&rad(e)<2)res(0,'Se apagó.');if(s.ty==1&&s.hs&&(now-s.hs)/1300>1.05)res(0,'Demasiado larga.');if(s.ty==1&&!s.hs&&e>3.5)res(0,'Te dormiste.');if(s.ty==2&&e>s.cue/1000+2)res(0,'No reaccionaste.')}
+f(D,0,0,W,H);f(E,0,92,W,16);f(M,0,92,W,1);
+SP.t=SP.t||mk(DR.t,CL.t);SP.t0=SP.t0||mk(lg('t',0),99);xg.drawImage(SP.t0,16,26);xg.drawImage(SP.t,16,26);
+f((fr2>>4)&1?X:M,57,48,1,1);
+s.pf.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a-=.012;xg.globalAlpha=Math.max(p.a,0);f(P,p.x,p.y,2,2)});xg.globalAlpha=1;s.pf=s.pf.filter(p=>p.a>0);
+tx('Calada '+Math.min(s.i,s.N)+'/'+s.N+'   Combo x'+s.cb,4,10,L);tx('Aura '+(s.au>=0?'+':'')+s.au,188,10,L,11,'right');
+if(s.ph=='go'){const cx=130,cy=50;xg.lineWidth=1;
+if(s.ty==0){tx('Aro sobre el círculo: ESPACIO',cx,18,X,10,'center');xg.strokeStyle=M;xg.beginPath();xg.arc(cx,cy,8,0,7);xg.stroke();
+xg.strokeStyle=X;xg.globalAlpha=.65+.35*Math.sin(fr2/2);xg.beginPath();xg.arc(cx,cy,Math.max(rad(e),1),0,7);xg.stroke();xg.globalAlpha=1;
+xg.strokeStyle=L;for(let k=0;k<5;k++){const y=30+k*10,x=(fr2*2+k*37)%60;xg.beginPath();xg.moveTo(100+x,y);xg.lineTo(112+x,y+2);xg.stroke()}}
+else if(s.ty==1){tx('MANTÉN y suelta en la zona clara',cx,18,X,10,'center');const lo=.6-.07*(s.tol-1),hi=.85+.07*(s.tol-1);f(M,90,60,80,8);f(L,90+lo*80,60,(hi-lo)*80,8);
+if(s.hs)f(X,90,60,Math.min(80,(now-s.hs)/1300*80)|0,3);f(P,90,68,80,1)}
+else{tx('Espera la señal y pulsa DOS veces',cx,18,X,10,'center');if(e>s.cue/1000)tx('¡YA!',cx,56,(fr2>>2)&1?X:L,26,'center');else tx('...',cx,56,M,20,'center')}}
+else tx(s.msg,130,56,s.msg.includes('aura')&&!s.msg.includes('-')?X:L,12,'center')}
+open(s);nx()}
+/* ---------- MODO 2: TIRO EN PRIMERA PERSONA ---------- */
+function sh(){spend();sv();
+const s={k:'sh',t0:performance.now(),hp:3+(use.cha?1:0),am:WP[SV.w.eq].amm+(use.mun?3:0),ammo:WP[SV.w.eq].amm+(use.mun?3:0),au:0,rp:0,cb:0,tg:[],nt:700,mx:96,my:54,jx:0,jy:0,kick:0,tr:(use.dz?.2:1)*WP[SV.w.eq].tr,rd:(use.las?9:5)+WP[SV.w.eq].rd,msg:'',mt:0,hit:0,inn:0,fl:0,lt:0,bl:{x:-70,on:0,nx:8000},cur:'none'};
+const SL=[];for(let j=0;j<2;j++)for(let i=0;i<3;i++)SL.push({x:18+i*58,y:12+j*42,w:40,h:34,u:null});
+const msg=t=>{s.msg=t;s.mt=60};
+const fin=ok=>{if(mode!==s)return;end(ok?'FIN DEL TURNO':'HAS PERDIDO LA CALMA',s,'Matones abatidos: '+s.hit+'   Inocentes alcanzados: '+s.inn+'.\n'+(s.inn>=3?'Demasiada sangre inocente.':s.hit>=10?'Una limpieza digna de leyenda.':'La ciudad sigue siendo peligrosa.'))};
+s.pm=(x,y)=>{s.mx=x;s.my=y};s.pd=(x,y)=>{s.mx=x;s.my=y};
+const reload=()=>{if(s.rlg||s.ammo==s.am)return;s.rlg=1;setTimeout(()=>{s.ammo=s.am;s.rlg=0},WP[SV.w.eq].rt)};
+s.rl=reload;
+s.dn=()=>{if(s.rlg)return;if(s.ammo<=0)return reload();s.ammo--;s.fl=3;s.kick=6;sfx('s');if(s.ammo==0)reload();
+const px=s.mx+s.jx,py=s.my+s.jy;if(s.bl.on&&px>s.bl.x&&px<s.bl.x+70&&py>60&&py<96){msg('¡El camión tapa el disparo!');s.cb=0;return}
+for(const t of s.tg){if(t.dead)continue;const sl=t.sl,cx=sl.x+sl.w/2,by=sl.y+sl.h-1,r=s.rd*.4;
+if(px>cx-6-r&&px<cx+6+r&&py>by-30-r&&py<by+r){t.dead=1;t.dt=30;
+if(t.bad){s.cb++;const a=10+Math.min(s.cb,5);SV.a+=a;s.au+=a;SV.c+=2;SV.r++;s.rp++;s.hit++;msg('Matón abatido +'+a+' aura')}
+else{s.cb=0;const a=Math.min(15,SV.a);SV.a-=a;s.au-=15;SV.r=Math.max(0,SV.r-2);s.rp-=2;s.inn++;s.hp--;msg('¡INOCENTE! -15 aura, -2 rep');shk=6;if(s.hp<=0)setTimeout(()=>fin(0),600)}
+sv();return}}
+s.cb=0};
+const fig=(cx,by,bad,k)=>{const b=bad?'#3a3a3a':'#c0c0c0',d=bad?K:'#777',sk=bad?'#8e8e8e':'#e0e0e0';
+f(d,cx-3,by-10,2,10);f(d,cx+1,by-10,2,10);f(b,cx-3,by-11,6,2);/* piernas+cadera */
+f(b,cx-4,by-20,8,9);f(b,cx-5,by-20,10,2);/* torso con hombros */
+f(sk,cx-1,by-22,2,2);f(sk,cx-2,by-27,4,5);f(d,cx-2,by-27,4,1);/* cuello y cabeza */
+f(b,cx-6,by-19,2,9);f(sk,cx-6,by-10,2,2);
+if(bad){f(K,cx-3,by-29,6,3);f(K,cx-4,by-27,8,1);f(X,cx+4,by-19,2,2);f(b,cx+4,by-19,5,2);f(X,cx+8,by-20,4,2);f(X,cx+8,by-18,1,2);
+if((fr2>>3)&1)f(X,cx+12,by-20,2,2)}
+else{f(K,cx-3,by-29,6,2);f(K,cx-4,by-28,8,1);f(b,cx+4,by-19,2,8);f(sk,cx+4,by-12,2,2);xg.strokeStyle='#999';xg.beginPath();xg.arc(cx+5,by-28,9,Math.PI,0);xg.stroke();f('#999',cx+5,by-28,1,16)}};
+s.draw=()=>{const now=performance.now(),el=now-s.t0;if(el>45000){fin(1)}
+if(now>s.nt){const fr_=SL.filter(l=>!l.u);if(fr_.length){const l=fr_[Math.random()*fr_.length|0],t={sl:l,bad:Math.random()<.55,born:now,life:1500+Math.random()*800-el/100};l.u=t;s.tg.push(t)}s.nt=now+900-el/80+Math.random()*300}
+s.tg.forEach(t=>{if(t.dead&&--t.dt<=0||!t.dead&&now-t.born>t.life){if(!t.dead)s.cb=0;t.sl.u=null;t.gone=1}});s.tg=s.tg.filter(t=>!t.gone);
+if(now>s.bl.nx&&!s.bl.on){s.bl.on=1;s.bl.x=-70}if(s.bl.on){s.bl.x+=1.2;if(s.bl.x>W){s.bl.on=0;s.bl.nx=now+7000+Math.random()*4000}}
+if(!s.lt&&Math.random()<.003)s.lt=14;
+const am=(3+el/9000*2.2)*s.tr+s.kick;s.kick*=.85;s.jx=Math.sin(fr2/3.1)*am+Math.sin(fr2/1.3)*am*.4;s.jy=Math.cos(fr2/2.7)*am+Math.cos(fr2/1.1)*am*.4;
+f(K,0,0,W,H);f(E,0,0,W,92);for(let y=2;y<92;y+=4)f(D,0,y,W,1);
+SL.forEach(l=>{f(M,l.x-2,l.y-2,l.w+4,l.h+4);f('#050505',l.x,l.y,l.w,l.h);if(l.u)fig(l.x+l.w/2,l.y+l.h-1,l.u.bad,l.u.dead);if(l.u&&l.u.dead){f(X,l.x+l.w/2-3,l.y+8,6,1);f(X,l.x+l.w/2-1,l.y+6,2,5)}f(P,l.x-3,l.y+l.h+2,l.w+6,2)});
+f(D,0,92,W,16);f(M,0,92,W,1);
+if(s.bl.on){const x=s.bl.x;f(M,x,62,70,32);f(L,x,62,70,2);f(K,x+6,68,14,10);f(K,x+26,68,14,10);f(D,x+8,94,10,4);f(D,x+52,94,10,4)}
+xg.globalAlpha=.5;rain.forEach(r=>f(L,r.x,r.y,1,4));xg.globalAlpha=1;
+const px=s.mx+s.jx,py=s.my+s.jy;
+const gx=96+(s.mx-96)*.35;f(D,gx-5,H-14+s.kick,10,14);f(P,gx-3,H-18+s.kick,6,6);f(X,gx-1,H-20+s.kick,2,3);f(M,gx-9,H-8,5,8);f(M,gx+4,H-8,5,8);
+if(s.fl>0){s.fl--;f(X,gx-3,H-26,6,5);xg.globalAlpha=.2;f(X,0,0,W,H);xg.globalAlpha=1}
+xg.strokeStyle=X;xg.lineWidth=1;xg.beginPath();xg.arc(px,py,s.rd,0,7);xg.moveTo(px-s.rd-3,py);xg.lineTo(px-1,py);xg.moveTo(px+1,py);xg.lineTo(px+s.rd+3,py);xg.moveTo(px,py-s.rd-3);xg.lineTo(px,py-1);xg.moveTo(px,py+1);xg.lineTo(px,py+s.rd+3);xg.stroke();
+if(s.lt){xg.globalAlpha=Math.min(1,s.lt/10);f(X,0,0,W,H);xg.globalAlpha=1;s.lt--}
+tx('♥'.repeat(Math.max(s.hp,0)),4,10,X);tx('Balas '+(s.rlg?'recargando...':'■'.repeat(s.ammo)),4,H-3,L,10);tx(Math.max(0,45-el/1000|0)+'s   Aura '+(s.au>=0?'+':'')+s.au,188,10,L,11,'right');
+if(use.dz)tx('Pulso firme',188,H-3,L,10,'right');
+if(s.mt>0){s.mt--;tx(s.msg,96,22,X,12,'center')}}
+open(s)}
+/* ---------- MODO 3: PUZLES ---------- */
+const PZ=[{q:'El ladrón no llevaba gorra ni bufanda. Ada llevaba gorra. Beto, bufanda. Cora, ninguna de las dos. ¿Quién fue?',o:['Ada','Beto','Cora'],a:2},
+{q:'La caja se abrió entre las 22 y las 23 h. Ada salió del cine a las 22:30. Beto cenó con el comisario de 21 a 23. Cora hizo guardia en el hotel hasta las 23:30. ¿Quién tuvo ventana?',o:['Ada','Beto','Cora'],a:0},
+{q:'Las huellas en el barro llegan al muelle y no tienen lluvia encima. Llovió de 21 a 23 h. El vigilante vio gente a las 22:00 y a las 23:30. ¿Cuándo pasó?',o:['A las 22:00','A las 23:30','A las 21:00'],a:1},
+{q:'Código de 3 cifras: la primera es la mitad de la tercera; la segunda es la suma de las otras dos; la tercera es 6.',o:['396','369','693','936'],a:0},
+{q:'Pelo largo y castaño en la caja fuerte. Five: pelo corto. John: largo y rubio. Knive: largo y castaño. Rose: largo y negro. ¿Quién coincide?',o:['Five','John','Knive','Rose'],a:2},
+{q:'La llave está en el abrigo o en el cajón. Registras el abrigo y no está. ¿Dónde está?',o:['En el cajón','En el bolsillo de Five','En el muelle'],a:0},
+{q:'Tres maletas: la de acero no es la más pesada; la de cuero pesa más que la de acero; la de tela es la más ligera. ¿Cuál es la más pesada?',o:['Acero','Cuero','Tela'],a:1},
+{q:'Ayer fue martes y llovió. El criminal solo actúa dos días después de que llueva. ¿Qué día actuará?',o:['Miércoles','Jueves','Viernes'],a:1}];
+function pz(){spend();sv();const L=PZ.slice().sort(()=>Math.random()-.5).slice(0,5),s={k:'pz',au:0,rp:0};let i=0,ok=0,fr=use.caf?1:0,lu=use.lupa?1:0;
+const step=(note,hid)=>{hid=hid||[];if(i>=5)return end('CASO RESUELTO',s,'Resueltos: '+ok+'/5. '+(ok>=4?'Elemental, querido Tive.':'El crimen seguirá un poco más.'));
+const p=L[i],b=[];p.o.forEach((o,k)=>{if(!hid.includes(k))b.push([o,()=>ans(k,hid)])});
+if(use.lupa&&lu)b.push(['Usar la lupa (descarta una opción)',()=>{lu=0;const w=p.o.map((_,k)=>k).filter(k=>k!=p.a&&!hid.includes(k));step('La lupa descarta una opción.',hid.concat(w[0]))}]);
+ui('PUZLE '+(i+1)+'/5',(note?note+'\n\n':'')+p.q,b)};
+const ans=(k,hid)=>{const p=L[i];if(k==p.a){ok++;SV.a+=8;SV.c+=2;SV.r++;s.au+=8;s.rp++;i++;sv();step('¡Correcto! +8 aura')}
+else if(fr){fr=0;step('Erras, pero el café te da otra oportunidad.',hid.concat(k))}
+else{SV.a=Math.max(0,SV.a-4);s.au-=4;i++;sv();step('Fallaste (era: '+p.o[p.a]+'). -4 aura')}};step()}
+/* ---------- Integración con el menú ---------- */
+N.s0.ch.splice(3,0,['Modos extra','@xm']);
+const _a=act;act=function(c,B){if(c[1]=='@xm')return xmenu();return _a(c,B)};
+})();
+</script><script>
+/* ---------- Guardado, autoguardado, reintento, dificultad, diario y objetos de tienda ---------- */
+(()=>{
+const KM='tiveSave',KA='tiveAuto',KC='tiveCfg',KE='tiveEnds';
+const clone=o=>JSON.parse(JSON.stringify(o));
+const rd=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(_){return null}};
+const wr=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
+const lbl=id=>String(id).indexOf('c2_')==0?'Caso 2':'Caso 1';
+const DN=['Fácil (5 ♥, zona ancha)','Normal','Difícil (2 ♥, zona estrecha)'];
+let cfg=Object.assign({d:1,p:1},rd(KC)),mem={m:null,a:null},last=null,curId='s0',loading=0;
+const ok=d=>d&&N[d.id]&&d.S?d:null;
+const get=w=>ok(rd(w=='m'?KM:KA))||ok(mem[w]);
+const newest=()=>{const m=get('m'),a=get('a');return m&&a?(a.t>m.t?a:m):(m||a)};
+/* Estilos y avisos */
+const st=document.createElement('style');
+st.textContent='#sbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:6px}#sbar button{font-size:18px;padding:2px 10px;color:var(--dim)}#tst{position:absolute;left:8px;top:8px;right:8px;z-index:6;background:#000;color:var(--fg);border:1px solid var(--fg);padding:2px 10px;font-size:20px;opacity:0;transition:opacity .25s;pointer-events:none}#tst.on{opacity:1}#dia{position:absolute;inset:0;z-index:8;background:rgba(0,0,0,.95);color:var(--fg);padding:8px 14px;overflow:auto;white-space:pre-wrap;display:none;font-size:19px;line-height:1.15;cursor:pointer}';
+document.head.appendChild(st);
+const T0=document.createElement('div');T0.id='tst';$('cw').appendChild(T0);let tt;
+function toast(m){T0.textContent=m;T0.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>T0.classList.remove('on'),2400)}
+/* Registro de la entrada a cada nodo (estado ANTES de aplicar sus efectos) */
+const _go=go;
+go=function(id,e){
+if(!loading&&(id==='o1'||id==='c2_0'))perks();
+last={id:id,e:e===undefined?null:e,S:clone(S),t:Date.now()};curId=id;
+if(N[id]&&N[id].qte&&!N[id].end){mem.a=clone(last);wr(KA,mem.a)}
+const r=_go(id,e);
+if(cur&&cur.end){const k=Object.keys(N).find(k=>N[k]===cur);if(k){curId=k;const g=rd(KE)||{};g[k]=1;wr(KE,g)}}
+return r};
+const real=()=>cur===N[curId];
+const canSave=()=>real()&&!cur.end&&!cur.menu&&!cur.cine&&last&&last.id===curId;
+function save(){
+if(!canSave()){toast('Aquí no se puede guardar');return}
+mem.m=clone(last);wr(KM,mem.m);toast('Partida guardada · '+lbl(last.id));sfx('c')}
+function load(d,retry){
+d=d||newest();if(!d){toast('No hay partida guardada');return}
+TO.forEach(clearTimeout);TO=[];clearInterval(wkI);WX=0;flash=0;Q.on=0;
+for(const k in S)delete S[k];Object.assign(S,clone(d.S));
+if(retry&&S.h<2)S.h=2;
+toast((retry?'Reintentando la escena de acción':'Partida cargada')+' · '+lbl(d.id));
+loading=1;try{go(d.id,d.e||undefined)}finally{loading=0}}
+/* Teclas: Tab guarda en plena historia y carga en el menú o al morir; J abre el diario */
+addEventListener('keydown',e=>{
+if(e.key=='j'||e.key=='J'){diary(1);return}
+if(e.key=='Escape'&&dia.style.display=='block'){dia.style.display='none';return}
+if(e.key!=='Tab')return;
+if(cur&&real()&&(cur.end||cur.menu)){e.preventDefault();if(!e.repeat)load();return}
+if(cur&&(cur.intro||cur.cine)){e.preventDefault();if(!e.repeat)toast('Aquí no se puede guardar. Espera a la siguiente decisión.');return}
+if(real()){e.preventDefault();if(!e.repeat)save()}});
+/* Botones extra en el menú principal y en los finales; se renumeran para que sirvan las teclas 1-9 */
+const _done=done;
+done=function(){const r=_done.apply(this,arguments);
+if(cur===N.s0||cur.end){const b=$('ch'),add=(t,f,first)=>{const B=document.createElement('button');B.textContent=t;B.onclick=()=>{sfx('c');f()};first?b.insertBefore(B,b.firstChild):b.appendChild(B)};
+const a=get('a'),m=get('m');
+if(cur.end&&a)add('Reintentar la última escena de acción ('+lbl(a.id)+')',()=>load(a,1),1);
+if(m)add('Cargar partida guardada · '+lbl(m.id)+(cur.end?' (Tab)':''),()=>load(m));
+else if(a&&cur===N.s0)add('Continuar desde la última escena de acción',()=>load(a,1));
+[...b.children].forEach((B,i)=>{B.textContent=(i+1)+'. '+B.textContent.replace(/^\d+\. /,'')})}
+return r};
+/* Dificultad */
+const _zone=zone;
+zone=function(){_zone();const k=[1.6,1,.8][cfg.d];if(k!=1){Q.w=Math.max(8,Math.round(Q.w*k));Q.z=Math.min(Q.z,150-Q.w-2)}};
+const _rs=rs;
+rs=function(){_rs.apply(this,arguments);S.h=[5,3,2][cfg.d]};
+/* Objetos de la tienda: chaleco = +1 corazón, café = +1 pista, al empezar un caso */
+function perks(){
+if(!cfg.p||!window.SVX)return;const v=SVX.inv,m=[];
+if(v.cha>0){v.cha--;S.h++;m.push('Chaleco antibalas: +1 corazón')}
+if(v.caf>0){v.caf--;S.c++;m.push('Café cargado: +1 pista')}
+if(m.length){SVSAVE();setTimeout(()=>toast(m.join(' · ')),500)}}
+/* Opciones en el menú principal */
+const dl=()=>'Dificultad: '+DN[cfg.d],pl=()=>'Objetos de tienda en los casos: '+(cfg.p?'sí':'no');
+N.s0.ch.push([dl(),'@dif'],[pl(),'@perk']);
+const _a=act;
+act=function(c,B){
+if(c[1]=='@dif'||c[1]=='@perk'){if(c[1]=='@dif'){cfg.d=(cfg.d+1)%3;c[0]=dl()}else{cfg.p=cfg.p?0:1;c[0]=pl()}
+wr(KC,cfg);B.textContent=B.textContent.split('. ')[0]+'. '+c[0];return}
+return _a(c,B)};
+/* Diario de pistas y finales */
+const dia=document.createElement('div');dia.id='dia';dia.onclick=()=>dia.style.display='none';$('cw').appendChild(dia);
+function diary(tg){
+if(tg&&dia.style.display=='block'){dia.style.display='none';return}
+const E=Object.keys(N).filter(k=>N[k].end).sort((a,b)=>parseInt(a.replace(/\D/g,''))-parseInt(b.replace(/\D/g,''))),g=rd(KE)||{};
+dia.textContent='DIARIO DEL DETECTIVE  (clic, J o Esc para cerrar)\n\nPISTAS Y PRUEBAS\n'+(S.i.length?S.i.map(x=>'· '+x).join('\n'):'· Aún nada')+'\nPistas: '+S.c+'   Confianza de Five: '+(S.l>0?'▲':S.l<0?'▼':'■')+'   Vidas: '+Math.max(S.h,0)+
+'\n\nFINALES '+E.filter(k=>g[k]).length+'/'+E.length+'\n'+E.map(k=>g[k]?'✔ '+N[k].t.split('\n')[0]:'□ ??? Final sin descubrir').join('\n');
+dia.scrollTop=0;dia.style.display='block'}
+/* Barra de botones (móvil / ratón) */
+const bar=document.createElement('div');bar.id='sbar';
+[['Guardar (Tab)',save],['Cargar',()=>{const d=newest();if(!d){toast('No hay partida guardada');return}
+if(!(cur.end||cur.menu)&&!confirm('¿Cargar la última partida? Perderás el progreso actual.'))return;load(d)}],
+['Reintentar acción',()=>{const a=get('a');if(!a){toast('Aún no has llegado a ninguna escena de acción');return}
+if(!(cur.end||cur.menu)&&!confirm('¿Reintentar desde la última escena de acción?'))return;load(a,1)}],
+['Diario (J)',()=>diary()]].forEach(([t,f])=>{const B=document.createElement('button');B.textContent=t;B.tabIndex=-1;B.onmousedown=e=>e.preventDefault();B.onclick=f;bar.appendChild(B)});
+$('hud').after(bar);
+N.help.t+=' TAB guarda en plena historia (y carga en el menú o al morir). Antes de cada escena de acción se autoguarda. J abre el diario. La dificultad y los objetos de tienda se eligen en el menú.'
+})();
+</script>
+</body></html>
